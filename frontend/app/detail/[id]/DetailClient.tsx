@@ -27,12 +27,14 @@ import {
   Sunrise,
   Sunset,
   Moon,
+  Heart,
 } from 'lucide-react';
 import Header from '@/components/Header';
 import AvoidIndexBadge from '@/components/AvoidIndexBadge';
 import ScenicCard from '@/components/ScenicCard';
 import SpotPanorama from '@/components/Panorama/SpotPanorama';
 import { scenicAPI, weatherAPI, API_BASE_URL, resolveFileUrl, getAuthUser, authFetch, type ScenicSpot, type WeatherInfo } from '@/lib/api';
+import { recordVisit, isFavorite, toggleFavorite } from '@/lib/user-prefs';
 
 /** 带加载失败兜底的图片组件：加载失败时显示占位图而非裂图 */
 function SafeImage({ src, alt, sizes, className = '' }: { src: string; alt: string; sizes?: string; className?: string }) {
@@ -76,6 +78,7 @@ export default function DetailClient() {
   const [ugcRating, setUgcRating] = useState(5);
   const [toast, setToast] = useState('');
   const [panoramaTime, setPanoramaTime] = useState<'morning' | 'noon' | 'sunset' | 'night'>('noon');
+  const [favState, setFavState] = useState(false);
   const [reviews, setReviews] = useState<any[]>([]);
   const [showReviewForm, setShowReviewForm] = useState(false);
   const [reviewRating, setReviewRating] = useState(5);
@@ -120,6 +123,21 @@ export default function DetailClient() {
     };
     loadDetail();
   }, [spotId, router]);
+
+  // 记录浏览足迹 + 恢复收藏状态
+  useEffect(() => {
+    if (spot) {
+      recordVisit(spot);
+      setFavState(isFavorite(spot.id));
+    }
+  }, [spot]);
+
+  const handleToggleFav = () => {
+    if (!spot) return;
+    const nowFav = toggleFavorite(spot.id);
+    setFavState(nowFav);
+    showToast(nowFav ? '已加入心愿单 ❤' : '已从心愿单移除');
+  };
 
   // 加载评价列表（返回评价文本，供避雷分析复用）
   const loadReviews = async (): Promise<string[]> => {
@@ -371,7 +389,22 @@ export default function DetailClient() {
                     </div>
                   </div>
                 </div>
-                <AvoidIndexBadge index={spot.avoid.avoid_index} size="lg" />
+                <div className="flex items-center gap-3">
+                  <button
+                    onClick={handleToggleFav}
+                    aria-label={favState ? '移出心愿单' : '加入心愿单'}
+                    aria-pressed={favState}
+                    title={favState ? '移出心愿单' : '加入心愿单'}
+                    className="w-11 h-11 rounded-full glass hover:bg-white/15 transition-all flex items-center justify-center"
+                  >
+                    <Heart
+                      className={`w-5 h-5 transition-all ${
+                        favState ? 'text-red-400 fill-red-400 scale-110' : 'text-white'
+                      }`}
+                    />
+                  </button>
+                  <AvoidIndexBadge index={spot.avoid.avoid_index} size="lg" />
+                </div>
               </div>
             </div>
           </div>

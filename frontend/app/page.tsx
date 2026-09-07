@@ -3,11 +3,12 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { Search, MapPin, Compass, AlertTriangle, Sparkles, ChevronRight, Star } from 'lucide-react';
+import { Search, MapPin, Compass, AlertTriangle, Sparkles, ChevronRight, Star, Clock, Heart } from 'lucide-react';
 import Header from '@/components/Header';
 import ScenicCard from '@/components/ScenicCard';
 import ClayIcon from '@/components/ClayIcon';
 import { scenicAPI, type ScenicSpot } from '@/lib/api';
+import { getVisitHistory, getFavorites, type VisitRecord } from '@/lib/user-prefs';
 
 const heroSlides = [
   {
@@ -45,6 +46,14 @@ export default function HomePage() {
   const [searchQuery, setSearchQuery] = useState('');
   const [recommendSpots, setRecommendSpots] = useState<ScenicSpot[]>([]);
   const [loading, setLoading] = useState(true);
+  const [history, setHistory] = useState<VisitRecord[]>([]);
+  const [favIds, setFavIds] = useState<string[]>([]);
+
+  // 读取本地足迹与心愿单（客户端挂载后）
+  useEffect(() => {
+    setHistory(getVisitHistory());
+    setFavIds(getFavorites());
+  }, []);
 
   // 自动轮播
   useEffect(() => {
@@ -265,6 +274,52 @@ export default function HomePage() {
           </div>
         )}
       </section>
+
+      {/* 最近浏览 */}
+      {history.length > 0 && (
+        <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
+          <div className="flex items-center justify-between mb-6">
+            <h2 className="text-2xl font-bold text-white flex items-center gap-3">
+              <Clock className="w-6 h-6 text-cyan-400" />
+              你的足迹
+              <span className="text-sm text-gray-500 font-normal">最近看过的景区</span>
+            </h2>
+          </div>
+          <div className="flex gap-4 overflow-x-auto pb-2">
+            {history.map((item) => (
+              <Link
+                key={item.id}
+                href={`/detail/${item.id}`}
+                className="glass glass-hover rounded-xl overflow-hidden flex-shrink-0 w-44 group"
+              >
+                <div className="relative h-24 bg-dark-800">
+                  {item.image && (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img
+                      src={item.image}
+                      alt={item.name}
+                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                    />
+                  )}
+                  {favIds.includes(item.id) && (
+                    <div className="absolute top-2 right-2 w-6 h-6 rounded-full bg-dark-900/70 flex items-center justify-center">
+                      <Heart className="w-3.5 h-3.5 text-red-400 fill-red-400" />
+                    </div>
+                  )}
+                </div>
+                <div className="p-3">
+                  <div className="text-sm text-white truncate group-hover:text-amber-400 transition-colors">
+                    {item.name}
+                  </div>
+                  <div className="text-xs text-gray-500 mt-1">
+                    {new Date(item.visitedAt).toLocaleDateString('zh-CN')} 浏览
+                  </div>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </section>
+      )}
 
       {/* 页脚 */}
       <footer className="glass border-t border-white/10">

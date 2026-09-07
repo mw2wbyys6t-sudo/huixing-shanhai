@@ -1,11 +1,12 @@
 'use client';
 
-import { useState, useEffect, useRef, Suspense } from 'react';
+import { useState, useEffect, useRef, useMemo, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
-import { Search, Filter, MapPin, ChevronLeft, ChevronRight, Compass } from 'lucide-react';
+import { Search, Filter, MapPin, ChevronLeft, ChevronRight, Compass, ArrowUpDown, Heart } from 'lucide-react';
 import Header from '@/components/Header';
 import ScenicCard from '@/components/ScenicCard';
 import { scenicAPI, provinceAPI, type ScenicSpot } from '@/lib/api';
+import { getFavorites } from '@/lib/user-prefs';
 
 function ExploreContent() {
   const searchParams = useSearchParams();
@@ -19,12 +20,18 @@ function ExploreContent() {
   const [selectedProvince, setSelectedProvince] = useState('');
   const [selectedType, setSelectedType] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(1);
-  const [total, setTotal] = useState(0);
   const [loading, setLoading] = useState(true);
+  const [sortKey, setSortKey] = useState<'default' | 'rating' | 'avoid'>('default');
+  const [favOnly, setFavOnly] = useState(false);
+  const [favIds, setFavIds] = useState<string[]>([]);
   const requestSeqRef = useRef(0);
 
   const types = ['全部', '名胜', '自然', '亲子', '城市'];
+
+  // 读取心愿单（客户端挂载后）
+  useEffect(() => {
+    setFavIds(getFavorites());
+  }, []);
 
   // 搜索防抖 300ms：停止输入后才触发请求
   useEffect(() => {
@@ -45,15 +52,13 @@ function ExploreContent() {
     loadProvinces();
   }, []);
 
-  // 加载景区列表（带请求序号，防止慢响应覆盖新结果）
+  // 加载景区列表（全量拉取，排序/收藏筛选/分页在客户端完成；带请求序号防竞态）
   useEffect(() => {
     const seq = ++requestSeqRef.current;
     const loadSpots = async () => {
       setLoading(true);
       try {
         let items: ScenicSpot[];
-        let totalCount: number;
-        let pages: number;
 
         if (debouncedQuery.trim()) {
           // 搜索模式：搜索结果同时应用省份/类型筛选
@@ -66,26 +71,20 @@ function ExploreContent() {
             filtered = filtered.filter((s) => s.type === selectedType);
           }
           items = filtered;
-          totalCount = filtered.length;
-          pages = 1;
         } else {
-          // 列表模式
+          // 列表模式（一次拉全量，数据规模小）
           const data = await scenicAPI.getList({
-            page: currentPage,
-            page_size: 12,
+            page: 1,
+            page_size: 50,
             province: selectedProvince || undefined,
             type: selectedType && selectedType !== '全部' ? selectedType : undefined,
           });
           items = data.items;
-          totalCount = data.total;
-          pages = data.total_pages;
         }
 
         // 仅接受最新一次请求的结果
         if (seq === requestSeqRef.current) {
           setSpots(items);
-          setTotal(totalCount);
-          setTotalPages(pages);
         }
       } catch (error) {
         console.error('加载景区失败:', error);
@@ -96,7 +95,22 @@ function ExploreContent() {
       }
     };
     loadSpots();
-  }, [currentPage, selectedProvince, selectedType, debouncedQuery]);
+  }, [selectedProvince, selectedType, debouncedQuery]);
+
+  // 客户端排序 → 收藏筛选 → 分页
+  const filteredSpots = useMemo(() => {
+    let list = [...spots];
+    if (favOnly) list = list.filter((s) => favIds.includes(s.id));
+    if (sortKey === 'rating') list.sort((a, b) => b.rating - a.rating);
+    if (sortKey === 'avoid') list.sort((a, b) => a.avoid.avoid_index - b.avoid.avoid_index);
+    return list;
+  }, [spots, sortKey, favOnly, favIds]);
+
+  const totalPages = Math.max(1, Math.ceil(filteredSpots.length / 12));
+  const pagedSpots = useMemo(() => {
+    const start = (currentPage - 1) * 12;
+    return filteredSpots.slice(start, start + 12);
+  }, [filteredSpots, currentPage]);
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
@@ -209,9 +223,44 @@ function ExploreContent() {
               ))}
             </div>
 
+            {/* 排序 */}
+            <div className="flex items-center gap-2">
+              <ArrowUpDown className="w-4 h-4 text-gray-400" />
+              <select
+                value={sortKey}
+                onChange={(e) => {
+                  setSortKey(e.target.value as 'default' | 'rating' | 'avoid');
+                  setCurrentPage(1);
+                }}
+                aria-label="排序方式"
+                className="px-3 py-2 rounded-lg bg-white/5 border border-white/10 text-white text-sm focus:outline-none focus:border-cyan-500/50 cursor-pointer"
+              >
+                <option value="default">默认排序</option>
+                <option value="rating">评分最高</option>
+                <option value="avoid">避雷指数最低</option>
+              </select>
+            </div>
+
+            {/* 只看心愿单 */}
+            <button
+              onClick={() => {
+                setFavOnly(!favOnly);
+                setCurrentPage(1);
+              }}
+              aria-pressed={favOnly}
+              className={`flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm transition-all ${
+                favOnly
+                  ? 'bg-red-500/20 border border-red-500/40 text-red-300'
+                  : 'bg-white/5 border border-white/10 text-gray-300 hover:bg-white/10'
+              }`}
+            >
+              <Heart className={`w-4 h-4 ${favOnly ? 'fill-red-400 text-red-400' : ''}`} />
+              心愿单
+            </button>
+
             {/* 结果统计 */}
             <div className="ml-auto text-sm text-gray-400">
-              共 <span className="text-cyan-400 font-semibold">{total}</span> 个景区
+              共 <span className="text-cyan-400 font-semibold">{filteredSpots.length}</span> 个景区
             </div>
           </div>
         </div>
@@ -232,16 +281,18 @@ function ExploreContent() {
               </div>
             ))}
           </div>
-        ) : spots.length === 0 ? (
+        ) : filteredSpots.length === 0 ? (
           <div className="glass rounded-2xl p-16 text-center">
             <MapPin className="w-16 h-16 text-gray-600 mx-auto mb-4" />
             <h3 className="text-xl font-bold text-white mb-2">未找到匹配的景区</h3>
-            <p className="text-gray-400">试试其他关键词或筛选条件</p>
+            <p className="text-gray-400">
+              {favOnly && spots.length > 0 ? '心愿单里还没有该筛选条件下的景区' : '试试其他关键词或筛选条件'}
+            </p>
           </div>
         ) : (
           <>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              {spots.map((spot, index) => (
+              {pagedSpots.map((spot, index) => (
                 <ScenicCard key={spot.id} spot={spot} index={index} />
               ))}
             </div>

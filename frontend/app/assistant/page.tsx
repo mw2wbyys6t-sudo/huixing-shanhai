@@ -19,6 +19,7 @@ import {
   Trash2,
 } from 'lucide-react';
 import { API_BASE_URL, getAuthUser } from '@/lib/api';
+import SpotLinkText from '@/components/SpotLinkText';
 
 interface Message {
   id: string;
@@ -437,7 +438,11 @@ export default function AssistantPage() {
                       }`}
                     >
                       <div className="whitespace-pre-wrap text-sm leading-relaxed">
-                        {message.content}
+                        {message.role === 'assistant' ? (
+                          <SpotLinkText text={message.content} linkClassName="text-cyan-300" />
+                        ) : (
+                          message.content
+                        )}
                       </div>
                     </div>
                   </div>

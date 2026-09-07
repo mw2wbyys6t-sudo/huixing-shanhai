@@ -19,6 +19,7 @@ import {
   XCircle,
 } from 'lucide-react';
 import Header from '@/components/Header';
+import SpotLinkText from '@/components/SpotLinkText';
 import { API_BASE_URL } from '@/lib/api';
 
 interface StepStatus {
@@ -93,14 +94,16 @@ function renderMarkdown(text: string): ReactNode {
   return nodes;
 }
 
-/** 行内加粗渲染：**text** → <strong> */
+/** 行内渲染：加粗 + 景区名自动转详情链接 */
 function renderInline(text: string): ReactNode {
   const parts = text.split(/(\*\*[^*]+\*\*)/g);
   return parts.map((part, i) =>
     part.startsWith('**') && part.endsWith('**') ? (
-      <strong key={i} className="text-white font-semibold">{part.slice(2, -2)}</strong>
+      <strong key={i} className="text-white font-semibold">
+        <SpotLinkText text={part.slice(2, -2)} linkClassName="text-cyan-300" />
+      </strong>
     ) : (
-      <span key={i}>{part}</span>
+      <SpotLinkText key={i} text={part} linkClassName="text-cyan-300" />
     )
   );
 }

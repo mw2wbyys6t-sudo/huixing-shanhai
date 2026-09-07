@@ -2,6 +2,9 @@ import type { Metadata } from 'next';
 import DetailClient from './DetailClient';
 import scenicData from '@/lib/scenic_data.json';
 
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
+const basePath = process.env.NEXT_PUBLIC_BASE_PATH || '';
+
 // 静态导出参数 - 20个景区
 export function generateStaticParams() {
   return scenicData.map((spot) => ({ id: spot.id }));
@@ -19,6 +22,47 @@ export async function generateMetadata({ params }: { params: { id: string } }): 
   };
 }
 
-export default function DetailPage() {
-  return <DetailClient />;
+// 结构化数据（TouristAttraction schema）
+function JsonLd({ id }: { id: string }) {
+  const spot = scenicData.find((s) => s.id === id);
+  if (!spot) return null;
+  const data = {
+    '@context': 'https://schema.org',
+    '@type': 'TouristAttraction',
+    name: spot.name,
+    description: spot.description,
+    image: spot.images[0] || undefined,
+    url: `${SITE_URL}${basePath}/detail/${spot.id}`,
+    address: {
+      '@type': 'PostalAddress',
+      addressRegion: spot.province,
+      addressLocality: spot.city,
+      addressCountry: 'CN',
+    },
+    geo: {
+      '@type': 'GeoCoordinates',
+      latitude: spot.latitude,
+      longitude: spot.longitude,
+    },
+    aggregateRating: {
+      '@type': 'AggregateRating',
+      ratingValue: spot.rating,
+      bestRating: 5,
+    },
+  };
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }}
+    />
+  );
+}
+
+export default function DetailPage({ params }: { params: { id: string } }) {
+  return (
+    <>
+      <JsonLd id={params.id} />
+      <DetailClient />
+    </>
+  );
 }
