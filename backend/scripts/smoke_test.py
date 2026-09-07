@@ -78,7 +78,7 @@ def main():
         check("推荐接口", r.status_code == 200 and len(r.json().get("items", [])) == 3)
 
         r = client.get("/api/stats")
-        check("统计接口", r.status_code == 200 and r.json().get("total_spots") == 20)
+        check("统计接口", r.status_code == 200 and (r.json().get("total_spots") or 0) >= 60)
 
         # ========== 认证闭环 ==========
         print("\n[认证闭环]")

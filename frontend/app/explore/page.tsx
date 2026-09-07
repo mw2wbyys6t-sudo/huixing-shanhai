@@ -78,7 +78,7 @@ function ExploreContent() {
           // 列表模式（一次拉全量，数据规模小）
           const data = await scenicAPI.getList({
             page: 1,
-            page_size: 50,
+            page_size: 100,
             province: selectedProvince || undefined,
             type: selectedType && selectedType !== '全部' ? selectedType : undefined,
           });

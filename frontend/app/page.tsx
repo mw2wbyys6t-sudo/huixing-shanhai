@@ -39,7 +39,7 @@ const heroSlides = [
 ];
 
 // 热门城市（与站内景区数据一致，点击即可命中结果）
-const hotCities = ['北京', '上海', '天津', '苏州', '南京', '哈尔滨', '大连', '沈阳', '承德', '秦皇岛'];
+const hotCities = ['北京', '杭州', '西安', '张家界', '成都', '上海', '厦门', '哈尔滨', '承德', '洛阳'];
 
 export default function HomePage() {
   const router = useRouter();

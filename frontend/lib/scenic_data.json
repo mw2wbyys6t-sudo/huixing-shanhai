@@ -605,5 +605,1245 @@
       "best_time": "春秋",
       "tips": "建议坐景区观光车，中山陵和明孝陵必看"
     }
+  },
+  {
+    "id": "CN-0021",
+    "name": "杭州西湖风景名胜区",
+    "province": "浙江省",
+    "city": "杭州",
+    "type": "自然",
+    "level": "5A",
+    "rating": 4.8,
+    "review_count": "8.9w",
+    "description": "三面云山一面城，苏堤春晓、断桥残雪等西湖十景闻名天下。免费开放的世界文化遗产，江南山水与人文诗词交融的典范。",
+    "images": [
+      "https://commons.wikimedia.org/wiki/Special:FilePath/20260424%20West%20Lake%20and%20Hangzhou%20Skyline.jpg?width=800"
+    ],
+    "latitude": 30.2421,
+    "longitude": 120.1508,
+    "best_season": "全年",
+    "tags": [
+      "世界遗产",
+      "湖泊",
+      "人文"
+    ],
+    "avoid": {
+      "avoid_index": 2.6,
+      "avoid_tags": [
+        "节假日拥挤",
+        "游船排队"
+      ],
+      "best_time": "平日清晨与工作日",
+      "tips": "断桥、雷峰塔节假日人流极大，建议清晨环湖；灵隐寺需另购飞来峰门票。"
+    }
+  },
+  {
+    "id": "CN-0022",
+    "name": "黄山风景区",
+    "province": "安徽省",
+    "city": "黄山",
+    "type": "自然",
+    "level": "5A",
+    "rating": 4.9,
+    "review_count": "5.6w",
+    "description": "五岳归来不看山，黄山归来不看岳。奇松、怪石、云海、温泉、冬雪五绝著称，迎客松与光明顶是中国山岳风光的巅峰代表。",
+    "images": [
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Huangshan%20fengjing.jpg?width=800"
+    ],
+    "latitude": 30.131,
+    "longitude": 118.164,
+    "best_season": "四季皆宜",
+    "tags": [
+      "世界遗产",
+      "山岳",
+      "云海"
+    ],
+    "avoid": {
+      "avoid_index": 2.4,
+      "avoid_tags": [
+        "索道排队",
+        "山顶住宿贵"
+      ],
+      "best_time": "春秋两季与雪后初晴",
+      "tips": "山顶物价高，建议自带干粮；西海大峡谷单向通行体力消耗大；看日出需提前订山顶床位。"
+    }
+  },
+  {
+    "id": "CN-0023",
+    "name": "鼓浪屿",
+    "province": "福建省",
+    "city": "厦门",
+    "type": "名胜",
+    "level": "5A",
+    "rating": 4.6,
+    "review_count": "6.3w",
+    "description": "万国建筑博览与钢琴之岛，百年别墅群掩映在榕树与三角梅之间。步行岛上没有车马喧嚣，日光岩可俯瞰厦鼓海峡。",
+    "images": [
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Gulangyu%20Island%20from%20Zhongshan%20Road%2C%20Xiamen.jpg?width=800"
+    ],
+    "latitude": 24.4436,
+    "longitude": 118.0672,
+    "best_season": "春秋冬",
+    "tags": [
+      "世界遗产",
+      "海岛",
+      "建筑"
+    ],
+    "avoid": {
+      "avoid_index": 2.9,
+      "avoid_tags": [
+        "船票紧张",
+        "商业街拥挤"
+      ],
+      "best_time": "工作日错峰上岛",
+      "tips": "轮渡需提前在官方渠道购票；岛上餐饮价格偏高；龙头路商业街人多，深度巷弄更有味道。"
+    }
+  },
+  {
+    "id": "CN-0024",
+    "name": "武夷山风景名胜区",
+    "province": "福建省",
+    "city": "南平",
+    "type": "自然",
+    "level": "5A",
+    "rating": 4.7,
+    "review_count": "3.1w",
+    "description": "碧水丹山的双世遗圣地，九曲溪竹筏漂流如行画中，天游峰一览武夷全景。大红袍母树与岩茶文化更添人文韵味。",
+    "images": [
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Wuyi%20Mountains%20Sea%20of%20clouds%204.jpg?width=800"
+    ],
+    "latitude": 27.756,
+    "longitude": 118.033,
+    "best_season": "夏秋",
+    "tags": [
+      "世界遗产",
+      "山水",
+      "茶文化"
+    ],
+    "avoid": {
+      "avoid_index": 2.2,
+      "avoid_tags": [
+        "竹筏需预约",
+        "山路湿滑"
+      ],
+      "best_time": "夏季漂流水丰",
+      "tips": "九曲溪竹筏票旺季紧俏需提前订；山区多雨备雨具；品茶时谨慎购买高价茶叶。"
+    }
+  },
+  {
+    "id": "CN-0025",
+    "name": "泰山风景名胜区",
+    "province": "山东省",
+    "city": "泰安",
+    "type": "自然",
+    "level": "5A",
+    "rating": 4.8,
+    "review_count": "7.2w",
+    "description": "五岳之首，历代帝王封禅之地。夜爬泰山看日出是最经典的打开方式，十八盘的陡峭与玉皇顶的云海日出令人终生难忘。",
+    "images": [
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Jade%20Emperor%20Peak%20of%20Mount%20Tai%20%E6%B3%B0%E5%B1%B1%E7%8E%89%E7%9A%87%E9%A1%B6%202007%20075.jpg?width=800"
+    ],
+    "latitude": 36.2544,
+    "longitude": 117.101,
+    "best_season": "春秋",
+    "tags": [
+      "世界遗产",
+      "山岳",
+      "日出"
+    ],
+    "avoid": {
+      "avoid_index": 2.5,
+      "avoid_tags": [
+        "夜爬人多",
+        "山顶风大温差大"
+      ],
+      "best_time": "五一前后与九月",
+      "tips": "夜爬带好手电与防寒衣物，山顶租军大衣；索道下行旺季排队久；南天门物价高。"
+    }
+  },
+  {
+    "id": "CN-0026",
+    "name": "普陀山风景名胜区",
+    "province": "浙江省",
+    "city": "舟山",
+    "type": "名胜",
+    "level": "5A",
+    "rating": 4.7,
+    "review_count": "4.4w",
+    "description": "中国四大佛教名山之一的观音道场，海天佛国梵音涛声。南海观音立像、普济寺香火鼎盛，岛上海滩与古刹相映成趣。",
+    "images": [
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Putuo%20Mountain.jpg?width=800"
+    ],
+    "latitude": 29.972,
+    "longitude": 122.383,
+    "best_season": "春秋",
+    "tags": [
+      "海岛",
+      "佛教",
+      "观音道场"
+    ],
+    "avoid": {
+      "avoid_index": 2.8,
+      "avoid_tags": [
+        "香火消费高",
+        "船票旺季紧张"
+      ],
+      "best_time": "二月十九等佛诞日前后",
+      "tips": "岛上住宿节假日价格翻倍需早订；法物流通处请购理性消费；旺季进岛船票提前线上购买。"
+    }
+  },
+  {
+    "id": "CN-0027",
+    "name": "千岛湖风景名胜区",
+    "province": "浙江省",
+    "city": "杭州",
+    "type": "自然",
+    "level": "5A",
+    "rating": 4.6,
+    "review_count": "2.8w",
+    "description": "一千零七十八座翠岛镶嵌在碧波之上，水质常年优良可直饮。乘船跳岛游湖光山色，环湖绿道骑行是江浙度假的后花园。",
+    "images": [
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Qiandao%20Lake%20%28near%20Hangzhou%29.jpg?width=800"
+    ],
+    "latitude": 29.603,
+    "longitude": 119.035,
+    "best_season": "春秋",
+    "tags": [
+      "湖泊",
+      "岛屿",
+      "度假"
+    ],
+    "avoid": {
+      "avoid_index": 2.1,
+      "avoid_tags": [
+        "船票分层收费",
+        "餐厅海鲜价高"
+      ],
+      "best_time": "4-5月与9-10月",
+      "tips": "中心湖区与东南湖区选一即可；鱼头招牌店认准明码标价；环湖骑行注意防晒。"
+    }
+  },
+  {
+    "id": "CN-0028",
+    "name": "三清山风景名胜区",
+    "province": "江西省",
+    "city": "上饶",
+    "type": "自然",
+    "level": "5A",
+    "rating": 4.8,
+    "review_count": "2.3w",
+    "description": "西太平洋边缘最美丽的花岗岩，巨蟒出山、东方女神造型鬼斧神工。高空栈道缠绕悬崖云雾之间，是道教名山中的步道天堂。",
+    "images": [
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Mount%20Sanqing.JPG?width=800"
+    ],
+    "latitude": 28.902,
+    "longitude": 118.055,
+    "best_season": "春秋",
+    "tags": [
+      "世界遗产",
+      "花岗岩",
+      "栈道"
+    ],
+    "avoid": {
+      "avoid_index": 2.0,
+      "avoid_tags": [
+        "栈道恐高",
+        "索道排队"
+      ],
+      "best_time": "4-5月杜鹃花期",
+      "tips": "高空栈道恐高者量力；山上天气多变带雨衣；索道末班时间注意下山安排。"
+    }
+  },
+  {
+    "id": "CN-0029",
+    "name": "嵩山少林景区",
+    "province": "河南省",
+    "city": "郑州",
+    "type": "名胜",
+    "level": "5A",
+    "rating": 4.5,
+    "review_count": "4.1w",
+    "description": "天下功夫出少林，禅宗祖庭千年古刹。塔林肃穆、武校演武震撼，三皇寨栈道悬于少室山腰，红叶季尤为壮观。",
+    "images": [
+      "https://commons.wikimedia.org/wiki/Special:FilePath/20241103%20Steles%20in%20Shaolin%20Temple%2002.jpg?width=800"
+    ],
+    "latitude": 34.509,
+    "longitude": 112.938,
+    "best_season": "春秋",
+    "tags": [
+      "禅宗祖庭",
+      "武术",
+      "世界遗产"
+    ],
+    "avoid": {
+      "avoid_index": 3.0,
+      "avoid_tags": [
+        "武校推销",
+        "香火项目多"
+      ],
+      "best_time": "春秋两季",
+      "tips": "武术表演场次提前确认；路边拉客的私塾课程勿轻信；三皇寨索道下行末班较早。"
+    }
+  },
+  {
+    "id": "CN-0030",
+    "name": "龙门石窟",
+    "province": "河南省",
+    "city": "洛阳",
+    "type": "名胜",
+    "level": "5A",
+    "rating": 4.8,
+    "review_count": "5.2w",
+    "description": "伊河两岸十万余尊佛像凿刻千年，卢舍那大佛的微笑被誉为东方蒙娜丽莎。夜间灯光下的石窟更添神秘庄严。",
+    "images": [
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Longmen%20Grottoes%203.jpg?width=800"
+    ],
+    "latitude": 34.559,
+    "longitude": 112.472,
+    "best_season": "春秋",
+    "tags": [
+      "世界遗产",
+      "石刻",
+      "夜游"
+    ],
+    "avoid": {
+      "avoid_index": 2.3,
+      "avoid_tags": [
+        "节假日拥挤",
+        "停车场远"
+      ],
+      "best_time": "4月牡丹花会期间",
+      "tips": "东西山石窟分列伊河两岸预留体力；夜游票需单独购买；周边黑车拉客勿乘。"
+    }
+  },
+  {
+    "id": "CN-0031",
+    "name": "云台山风景名胜区",
+    "province": "河南省",
+    "city": "焦作",
+    "type": "自然",
+    "level": "5A",
+    "rating": 4.7,
+    "review_count": "3.8w",
+    "description": "北方岩溶地貌的博物馆，红石峡丹崖碧水一步一景，云台天瀑落差314米。茱萸峰玻璃栈道俯瞰太行云海。",
+    "images": [
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Yuntai%20montain%20%282%29.jpg?width=800"
+    ],
+    "latitude": 35.432,
+    "longitude": 113.218,
+    "best_season": "夏秋",
+    "tags": [
+      "红石峡",
+      "瀑布",
+      "地质公园"
+    ],
+    "avoid": {
+      "avoid_index": 2.2,
+      "avoid_tags": [
+        "景区大巴排队",
+        "雨季瀑布水量不定"
+      ],
+      "best_time": "8-9月水量充沛期",
+      "tips": "景区极大建议两日游；内部大巴末班车时间记牢；节假日岸上服务区住宿紧张。"
+    }
+  },
+  {
+    "id": "CN-0032",
+    "name": "武当山风景区",
+    "province": "湖北省",
+    "city": "十堰",
+    "type": "名胜",
+    "level": "5A",
+    "rating": 4.7,
+    "review_count": "3.5w",
+    "description": "亘古无双胜境，天下第一仙山。金顶铜殿熠熠生辉，南岩宫悬于绝壁，太极武术与道家养生文化源远流长。",
+    "images": [
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Wudangshan%202003%2010.jpg?width=800"
+    ],
+    "latitude": 32.4,
+    "longitude": 111.0,
+    "best_season": "春秋",
+    "tags": [
+      "世界遗产",
+      "道教",
+      "武术"
+    ],
+    "avoid": {
+      "avoid_index": 2.6,
+      "avoid_tags": [
+        "金顶拥挤",
+        "香火消费"
+      ],
+      "best_time": "春秋两季",
+      "tips": "金顶另行购票且旺季早上去人少；索道上下另收费；山门到太子坡车程较长预留时间。"
+    }
+  },
+  {
+    "id": "CN-0033",
+    "name": "神农架生态旅游区",
+    "province": "湖北省",
+    "city": "神农架林区",
+    "type": "自然",
+    "level": "5A",
+    "rating": 4.6,
+    "review_count": "1.9w",
+    "description": "华中屋脊的原始秘境，金丝猴在冷杉林间跳跃，大九湖湿地晨雾如仙境。夏季均温20度，是华中避暑的顶配答案。",
+    "images": [
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Location%20of%20Shennongjia%20within%20Hubei%20%28China%29.png?width=800"
+    ],
+    "latitude": 31.744,
+    "longitude": 110.675,
+    "best_season": "夏秋",
+    "tags": [
+      "原始森林",
+      "金丝猴",
+      "避暑"
+    ],
+    "avoid": {
+      "avoid_index": 1.9,
+      "avoid_tags": [
+        "景点分散",
+        "山路驾驶"
+      ],
+      "best_time": "6-8月避暑与10月秋色",
+      "tips": "景区间车程长建议包车或自驾；早晚温差大带外套；木鱼镇是住宿集散中心。"
+    }
+  },
+  {
+    "id": "CN-0034",
+    "name": "张家界武陵源风景名胜区",
+    "province": "湖南省",
+    "city": "张家界",
+    "type": "自然",
+    "level": "5A",
+    "rating": 4.8,
+    "review_count": "6.8w",
+    "description": "三千奇峰拨地而起，《阿凡达》悬浮山的原型取景地。袁家界云海、金鞭溪幽谷、天门山玻璃栈道共同构成湘西山水传奇。",
+    "images": [
+      "https://commons.wikimedia.org/wiki/Special:FilePath/1%20zhangjiajie%20huangshizhai%20wulingyuan%20panorama%202012.jpg?width=800"
+    ],
+    "latitude": 29.348,
+    "longitude": 110.55,
+    "best_season": "春秋",
+    "tags": [
+      "世界遗产",
+      "峰林",
+      "阿凡达"
+    ],
+    "avoid": {
+      "avoid_index": 2.9,
+      "avoid_tags": [
+        "旺季索道排队",
+        "玻璃桥票紧俏"
+      ],
+      "best_time": "4-6月与9-11月",
+      "tips": "武陵源门票四日有效合理规划；天门山与武陵源是两个景区勿混淆；山地导游拉客勿轻信。"
+    }
+  },
+  {
+    "id": "CN-0035",
+    "name": "桂林漓江风景名胜区",
+    "province": "广西壮族自治区",
+    "city": "桂林",
+    "type": "自然",
+    "level": "5A",
+    "rating": 4.8,
+    "review_count": "5.9w",
+    "description": "桂林山水甲天下，漓江竹筏从桂林顺流至阳朔，两岸青峰倒映如百里画廊。二十元人民币背面的黄布倒影就在眼前。",
+    "images": [
+      "https://commons.wikimedia.org/wiki/Special:FilePath/1%20li%20jiang%20guilin%20yangshuo%202011.jpg?width=800"
+    ],
+    "latitude": 25.2736,
+    "longitude": 110.29,
+    "best_season": "夏秋",
+    "tags": [
+      "喀斯特",
+      "山水",
+      "竹筏"
+    ],
+    "avoid": {
+      "avoid_index": 2.7,
+      "avoid_tags": [
+        "游船票价差异大",
+        "雨天视线差"
+      ],
+      "best_time": "4-10月丰水期",
+      "tips": "三星船与四星船价差大按需选择；竹筏票认准官方码头；阳朔西街酒吧消费先看价目。"
+    }
+  },
+  {
+    "id": "CN-0036",
+    "name": "丹霞山",
+    "province": "广东省",
+    "city": "韶关",
+    "type": "自然",
+    "level": "5A",
+    "rating": 4.6,
+    "review_count": "1.6w",
+    "description": "丹霞地貌的命名地，赤壁丹崖色如渥丹。长老峰看日出云海，翔龙湖碧水萦回，阳元石与阴元石的自然奇观令人称奇。",
+    "images": [
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Danxia%20Sunrise.jpg?width=800"
+    ],
+    "latitude": 25.028,
+    "longitude": 113.741,
+    "best_season": "春秋",
+    "tags": [
+      "世界遗产",
+      "丹霞地貌",
+      "日出"
+    ],
+    "avoid": {
+      "avoid_index": 1.8,
+      "avoid_tags": [
+        "山路台阶多",
+        "夏季暴晒"
+      ],
+      "best_time": "3-5月与10-12月",
+      "tips": "看日出需凌晨摸黑上山带头灯；索道与步行路线量力选择；景区内交通船另收费。"
+    }
+  },
+  {
+    "id": "CN-0037",
+    "name": "德天跨国瀑布景区",
+    "province": "广西壮族自治区",
+    "city": "崇左",
+    "type": "自然",
+    "level": "5A",
+    "rating": 4.7,
+    "review_count": "1.8w",
+    "description": "亚洲第一跨国瀑布，三级跌落横跨中越边境，丰水期水量磅礴声震山谷。53号界碑与越南集市别有异域风情。",
+    "images": [
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Ban%20Gioc%20-%20Detian%20Falls2.jpg?width=800"
+    ],
+    "latitude": 22.858,
+    "longitude": 106.722,
+    "best_season": "夏季",
+    "tags": [
+      "跨国瀑布",
+      "喀斯特",
+      "边境"
+    ],
+    "avoid": {
+      "avoid_index": 2.3,
+      "avoid_tags": [
+        "丰枯水期差异大",
+        "边境购物"
+      ],
+      "best_time": "6-11月丰水期",
+      "tips": "枯水期瀑布水量小观感打折；界碑边贸市场商品辨明产地；景区大巴末班车时间注意。"
+    }
+  },
+  {
+    "id": "CN-0038",
+    "name": "长隆野生动物世界",
+    "province": "广东省",
+    "city": "广州",
+    "type": "亲子",
+    "level": "5A",
+    "rating": 4.8,
+    "review_count": "7.8w",
+    "description": "亚洲最大的私立野生动物园，乘车区穿越丛林与长颈鹿羚羊偶遇，熊猫三胞胎萌翻全场，是亲子游的顶级目的地。",
+    "images": [
+      "https://commons.wikimedia.org/wiki/Special:FilePath/PanYu%20ChimeLong%20Show%20Running.jpg?width=800"
+    ],
+    "latitude": 22.998,
+    "longitude": 113.33,
+    "best_season": "全年",
+    "tags": [
+      "亲子",
+      "动物园",
+      "主题乐园"
+    ],
+    "avoid": {
+      "avoid_index": 2.4,
+      "avoid_tags": [
+        "节假日排队",
+        "园内餐饮贵"
+      ],
+      "best_time": "工作日错峰",
+      "tips": "小火车排队久建议开园直奔；缆车环园线俯瞰兽群；园内餐贵可自带简餐。"
+    }
+  },
+  {
+    "id": "CN-0039",
+    "name": "九寨沟风景名胜区",
+    "province": "四川省",
+    "city": "阿坝",
+    "type": "自然",
+    "level": "5A",
+    "rating": 4.9,
+    "review_count": "7.5w",
+    "description": "翠海、叠瀑、彩林、雪峰、藏情、蓝冰六绝。五花海的湖水蓝得不像人间，诺日朗瀑布是中国最宽的钙化瀑布，秋季彩林倒映水中如打翻的调色盘。",
+    "images": [
+      "https://commons.wikimedia.org/wiki/Special:FilePath/1%20jiuzhaigou%20valley%20wu%20hua%20hai%202011b.jpg?width=800"
+    ],
+    "latitude": 33.26,
+    "longitude": 103.917,
+    "best_season": "秋季",
+    "tags": [
+      "世界遗产",
+      "彩池",
+      "瀑布"
+    ],
+    "avoid": {
+      "avoid_index": 2.3,
+      "avoid_tags": [
+        "门票限量预约",
+        "高原反应"
+      ],
+      "best_time": "10月中下旬彩林季",
+      "tips": "门票需提前官方渠道预约；景区海拔2000-3100米勿剧烈运动；沟内餐食有限自备干粮。"
+    }
+  },
+  {
+    "id": "CN-0040",
+    "name": "黄龙风景名胜区",
+    "province": "四川省",
+    "city": "阿坝",
+    "type": "自然",
+    "level": "5A",
+    "rating": 4.7,
+    "review_count": "2.6w",
+    "description": "人间瑶池，三千五个五彩钙化彩池层层叠叠如龙鳞铺展。与九寨沟相距百余公里，争艳池与金沙铺地是钙化地貌的极致。",
+    "images": [
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Water-of-Five-colored-Pond%20Huanglong%20Sichuan%20China.jpg?width=800"
+    ],
+    "latitude": 32.751,
+    "longitude": 103.822,
+    "best_season": "夏秋",
+    "tags": [
+      "世界遗产",
+      "钙化彩池",
+      "高原"
+    ],
+    "avoid": {
+      "avoid_index": 2.7,
+      "avoid_tags": [
+        "海拔高易高反",
+        "步行栈道长"
+      ],
+      "best_time": "9-10月",
+      "tips": "海拔3500米以上缓步行走备氧气瓶；索道上行步行下山最省力；与九寨沟联游注意行程节奏。"
+    }
+  },
+  {
+    "id": "CN-0041",
+    "name": "峨眉山风景区",
+    "province": "四川省",
+    "city": "乐山",
+    "type": "自然",
+    "level": "5A",
+    "rating": 4.7,
+    "review_count": "5.1w",
+    "description": "峨眉天下秀，金顶十方普贤圣像在云海佛光中熠熠生辉。生态猴区灵猴趣态可掬，冬季滑雪场是南方的冰雪奇缘。",
+    "images": [
+      "https://commons.wikimedia.org/wiki/Special:FilePath/%E5%B3%A8%E7%9C%89%E5%B1%B1%E9%A3%8E%E6%99%AF%E5%8C%BA%20Mount%20Emei%20Scenic%20Area%2007.jpg?width=800"
+    ],
+    "latitude": 29.52,
+    "longitude": 103.332,
+    "best_season": "春秋冬",
+    "tags": [
+      "世界遗产",
+      "佛教",
+      "金顶"
+    ],
+    "avoid": {
+      "avoid_index": 2.8,
+      "avoid_tags": [
+        "猴子抢食",
+        "金顶温差大"
+      ],
+      "best_time": "冬季看雪与佛光",
+      "tips": "猴区勿手提食物与塑料袋外露；雷洞坪以上租羽绒服上金顶；全山徒步需两日以上量力。"
+    }
+  },
+  {
+    "id": "CN-0042",
+    "name": "乐山大佛景区",
+    "province": "四川省",
+    "city": "乐山",
+    "type": "名胜",
+    "level": "5A",
+    "rating": 4.7,
+    "review_count": "4.6w",
+    "description": "山是一尊佛，佛是一座山。71米的弥勒坐像凿于凌云山岩壁千年，看大佛可走九曲栈道近观或乘船江上远眺全貌。",
+    "images": [
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Leshan%20Giant%20Buddha%2C%2020161102.jpg?width=800"
+    ],
+    "latitude": 29.545,
+    "longitude": 103.773,
+    "best_season": "春秋",
+    "tags": [
+      "世界遗产",
+      "大佛",
+      "三江汇流"
+    ],
+    "avoid": {
+      "avoid_index": 2.6,
+      "avoid_tags": [
+        "栈道排队久",
+        "节假日限流"
+      ],
+      "best_time": "春秋两季",
+      "tips": "九曲栈道旺季排队2小时起，早晨开门即入；游船视角看全佛更省力；周边跷脚牛肉值得一试。"
+    }
+  },
+  {
+    "id": "CN-0043",
+    "name": "都江堰景区",
+    "province": "四川省",
+    "city": "成都",
+    "type": "名胜",
+    "level": "5A",
+    "rating": 4.7,
+    "review_count": "3.9w",
+    "description": "两千多年前李冰父子的水利工程至今灌溉着成都平原，鱼嘴分水、飞沙堰泄洪、宝瓶口引水堪称古代工程奇迹。",
+    "images": [
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Dujiangyan%20Irrigation%20System%20%2850620354352%29.jpg?width=800"
+    ],
+    "latitude": 31.005,
+    "longitude": 103.618,
+    "best_season": "春秋",
+    "tags": [
+      "世界遗产",
+      "水利",
+      "李冰"
+    ],
+    "avoid": {
+      "avoid_index": 2.2,
+      "avoid_tags": [
+        "讲解需求高",
+        "节假日人多"
+      ],
+      "best_time": "春夏放水节期间",
+      "tips": "建议请讲解或租导览器才能看懂门道；安澜索桥晃动恐高者扶稳；与青城山联游一天紧凑。"
+    }
+  },
+  {
+    "id": "CN-0044",
+    "name": "丽江古城",
+    "province": "云南省",
+    "city": "丽江",
+    "type": "名胜",
+    "level": "5A",
+    "rating": 4.6,
+    "review_count": "6.6w",
+    "description": "小桥流水人家的柔软时光，四方街的青石板路映着玉龙雪山。纳西古乐、东巴文字与酒吧民谣在同一座古城里共存。",
+    "images": [
+      "https://commons.wikimedia.org/wiki/Special:FilePath/1%20lijiang%20old%20town%20night.jpg?width=800"
+    ],
+    "latitude": 26.872,
+    "longitude": 100.235,
+    "best_season": "全年",
+    "tags": [
+      "世界遗产",
+      "古城",
+      "纳西族"
+    ],
+    "avoid": {
+      "avoid_index": 3.2,
+      "avoid_tags": [
+        "酒吧消费套路",
+        "鲜花饼店雷同"
+      ],
+      "best_time": "秋冬淡季",
+      "tips": "古城维护费已被抽查；酒吧消费先确认价格；玉龙雪山门票与氧气租用走正规渠道。"
+    }
+  },
+  {
+    "id": "CN-0045",
+    "name": "玉龙雪山景区",
+    "province": "云南省",
+    "city": "丽江",
+    "type": "自然",
+    "level": "5A",
+    "rating": 4.7,
+    "review_count": "4.9w",
+    "description": "纳西族心中的神山，十三峰终年积雪如银龙飞舞。大索道直上4506米冰川公园，蓝月谷的湖水蓝白相间如玉带。",
+    "images": [
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Lijiang%20Yunnan%20China%20Jade-Dragon-Snow-Mountain-01.jpg?width=800"
+    ],
+    "latitude": 27.118,
+    "longitude": 100.17,
+    "best_season": "冬季",
+    "tags": [
+      "雪山",
+      "冰川",
+      "纳西圣山"
+    ],
+    "avoid": {
+      "avoid_index": 2.9,
+      "avoid_tags": [
+        "高反明显",
+        "索道票紧俏"
+      ],
+      "best_time": "11-3月雪景最佳",
+      "tips": "大索道票提前抢购常售罄；山上租羽绒服备氧气瓶；雪山脚下蓝月谷免费顺游。"
+    }
+  },
+  {
+    "id": "CN-0046",
+    "name": "崇圣寺三塔文化旅游区",
+    "province": "云南省",
+    "city": "大理",
+    "type": "名胜",
+    "level": "5A",
+    "rating": 4.6,
+    "review_count": "2.9w",
+    "description": "大理国的皇家寺院，三座千年白塔倒映在聚影池中与苍山洱海相映。三月街民族风情与风花雪月的浪漫在此交汇。",
+    "images": [
+      "https://commons.wikimedia.org/wiki/Special:FilePath/20260223%20Three%20Pagodas%20of%20Chongsheng%20Temple%2C%20Dali%2C%20Yunnan.jpg?width=800"
+    ],
+    "latitude": 25.718,
+    "longitude": 100.148,
+    "best_season": "春季",
+    "tags": [
+      "白族",
+      "佛塔",
+      "洱海"
+    ],
+    "avoid": {
+      "avoid_index": 2.2,
+      "avoid_tags": [
+        "景区面积大",
+        "周边租车压金"
+      ],
+      "best_time": "3-5月",
+      "tips": "倒影公园在三塔外需另购票；电瓶车代步省力；环洱海租车检查车况确认押金条款。"
+    }
+  },
+  {
+    "id": "CN-0047",
+    "name": "秦始皇兵马俑博物馆",
+    "province": "陕西省",
+    "city": "西安",
+    "type": "名胜",
+    "level": "5A",
+    "rating": 4.8,
+    "review_count": "9.4w",
+    "description": "世界第八大奇迹，八千陶俑军阵埋藏两千年依然军容严整。铜车马工艺登峰造极，一号坑的气势让人瞬间穿越回大秦帝国。",
+    "images": [
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Qin%20Shihuang%20Terracotta%20Army%2C%20Pit%201.jpg?width=800"
+    ],
+    "latitude": 34.384,
+    "longitude": 109.278,
+    "best_season": "全年",
+    "tags": [
+      "世界遗产",
+      "考古",
+      "秦代"
+    ],
+    "avoid": {
+      "avoid_index": 2.9,
+      "avoid_tags": [
+        "黑导游",
+        "节假日限流"
+      ],
+      "best_time": "3-5月与9-11月",
+      "tips": "务必请官方讲解否则看的是土坑；门票实名预约制；兵马俑在临潼区距市区约1小时车程勿信40分钟到。"
+    }
+  },
+  {
+    "id": "CN-0048",
+    "name": "华山风景名胜区",
+    "province": "陕西省",
+    "city": "渭南",
+    "type": "自然",
+    "level": "5A",
+    "rating": 4.8,
+    "review_count": "5.4w",
+    "description": "奇险天下第一山，长空栈道与鹞子翻身悬于绝壁。东西南北中五峰如莲花盛开，夜爬华山看日出是年轻背包客的仪式感。",
+    "images": [
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Mount%20Hua%2C%20May%2C%202018-10.jpg?width=800"
+    ],
+    "latitude": 34.475,
+    "longitude": 110.085,
+    "best_season": "春秋",
+    "tags": [
+      "五岳",
+      "险峰",
+      "长空栈道"
+    ],
+    "avoid": {
+      "avoid_index": 2.6,
+      "avoid_tags": [
+        "长空栈道排队",
+        "体力消耗极大"
+      ],
+      "best_time": "4-6月与9-10月",
+      "tips": "长空栈道安全绳费另收且排队久；北上西下路线最经典；旺季索道排队2小时起。"
+    }
+  },
+  {
+    "id": "CN-0049",
+    "name": "法门文化景区",
+    "province": "陕西省",
+    "city": "宝鸡",
+    "type": "名胜",
+    "level": "5A",
+    "rating": 4.5,
+    "review_count": "1.4w",
+    "description": "关中塔庙始祖，因供奉佛祖释迦牟尼指骨舍利而成为佛教圣地。合十舍利塔庄严肃穆，地宫出土的唐代文物国宝云集。",
+    "images": [
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Famensi.jpg?width=800"
+    ],
+    "latitude": 34.438,
+    "longitude": 107.899,
+    "best_season": "全年",
+    "tags": [
+      "佛教",
+      "舍利",
+      "唐文化"
+    ],
+    "avoid": {
+      "avoid_index": 2.4,
+      "avoid_tags": [
+        "商业化法物流通",
+        "距市区远"
+      ],
+      "best_time": "佛诞节日",
+      "tips": "舍利只在特定时间开放瞻仰提前查询；合十舍利塔内理性消费；可与乾陵联游一天。"
+    }
+  },
+  {
+    "id": "CN-0050",
+    "name": "鸣沙山月牙泉景区",
+    "province": "甘肃省",
+    "city": "敦煌",
+    "type": "自然",
+    "level": "5A",
+    "rating": 4.8,
+    "review_count": "4.7w",
+    "description": "沙漠第一泉，一湾月牙静卧沙海千年不涸。骑骆驼听驼铃摇过沙丘，滑沙、越野摩托与日落时分的沙漠光影终身难忘。",
+    "images": [
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Crescent%20Lake%20from%20the%20Singing%20Sand%20Dunes%20%2820230918101214%29.jpg?width=800"
+    ],
+    "latitude": 40.096,
+    "longitude": 94.669,
+    "best_season": "5-6月与9-10月",
+    "tags": [
+      "沙漠",
+      "月牙泉",
+      "驼队"
+    ],
+    "avoid": {
+      "avoid_index": 2.2,
+      "avoid_tags": [
+        "骑驼自费项目多",
+        "防晒必备"
+      ],
+      "best_time": "5-6月与9-10月",
+      "tips": "骆驼队消费项目提前问清价格；傍晚入园看日落避开暴晒；鞋套租用防沙进鞋。"
+    }
+  },
+  {
+    "id": "CN-0051",
+    "name": "张掖七彩丹霞景区",
+    "province": "甘肃省",
+    "city": "张掖",
+    "type": "自然",
+    "level": "5A",
+    "rating": 4.7,
+    "review_count": "3.2w",
+    "description": "上帝打翻的调色盘，七彩丘陵在夕阳下如彩虹铺展大地。四号观景台的日落是整个河西走廊最惊艳的颜色。",
+    "images": [
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Zhangye%20Danxia.JPG?width=800"
+    ],
+    "latitude": 38.952,
+    "longitude": 100.284,
+    "best_season": "6-9月",
+    "tags": [
+      "丹霞",
+      "地质奇观",
+      "日落"
+    ],
+    "avoid": {
+      "avoid_index": 2.0,
+      "avoid_tags": [
+        "中午光线平",
+        "景区观光车排队"
+      ],
+      "best_time": "日落前两小时",
+      "tips": "彩虹山色彩雨后与日落最艳；景区内乘观光车四个观景台逐个停留；无人机需报备。"
+    }
+  },
+  {
+    "id": "CN-0052",
+    "name": "青海湖景区",
+    "province": "青海省",
+    "city": "海南州",
+    "type": "自然",
+    "level": "5A",
+    "rating": 4.7,
+    "review_count": "3.6w",
+    "description": "中国最大的内陆咸水湖，七月环湖油菜花金黄到天边，湖水蓝得纯粹。二郎剑景区观湖，黑马河看日出是环湖旅人的执念。",
+    "images": [
+      "https://commons.wikimedia.org/wiki/Special:FilePath/202606%20Qinghai%20Lake%2016.jpg?width=800"
+    ],
+    "latitude": 36.885,
+    "longitude": 100.2,
+    "best_season": "7-8月",
+    "tags": [
+      "高原湖泊",
+      "油菜花",
+      "环湖"
+    ],
+    "avoid": {
+      "avoid_index": 2.1,
+      "avoid_tags": [
+        "海拔3200米注意高反",
+        "环湖包车套路"
+      ],
+      "best_time": "7-8月油菜花期",
+      "tips": "湖边拍照进入牧民围栏区域可能被收费；早晚冷备外套；高原勿跑跳饮酒。"
+    }
+  },
+  {
+    "id": "CN-0053",
+    "name": "天山天池风景名胜区",
+    "province": "新疆维吾尔自治区",
+    "city": "昌吉",
+    "type": "自然",
+    "level": "5A",
+    "rating": 4.7,
+    "review_count": "2.9w",
+    "description": "传说中西王母宴请周穆王的瑶池，博格达雪峰倒映在一泓碧水之中。环湖栈道云杉环绕，远处雪线清晰可见。",
+    "images": [
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Tianshan%20tianchi.jpg?width=800"
+    ],
+    "latitude": 43.883,
+    "longitude": 88.125,
+    "best_season": "5-9月",
+    "tags": [
+      "高山湖泊",
+      "雪山",
+      "西王母"
+    ],
+    "avoid": {
+      "avoid_index": 2.0,
+      "avoid_tags": [
+        "区间车程长",
+        "天气多变"
+      ],
+      "best_time": "6-9月",
+      "tips": "乌鲁木齐出发一日往返紧凑；湖边气温比市区低10度备外套；马牙山索道另收费。"
+    }
+  },
+  {
+    "id": "CN-0054",
+    "name": "喀纳斯景区",
+    "province": "新疆维吾尔自治区",
+    "city": "阿勒泰",
+    "type": "自然",
+    "level": "5A",
+    "rating": 4.8,
+    "review_count": "2.4w",
+    "description": "神的后花园，喀纳斯湖水会随季节变换颜色。九月白桦林金黄、晨雾中的神仙湾与月亮湾，是中国秋色的天花板。",
+    "images": [
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Kanas%20Lake%2C%20China%2C%20LandSat%20image.jpg?width=800"
+    ],
+    "latitude": 48.707,
+    "longitude": 87.009,
+    "best_season": "9月",
+    "tags": [
+      "湖泊",
+      "图瓦人",
+      "秋色"
+    ],
+    "avoid": {
+      "avoid_index": 2.4,
+      "avoid_tags": [
+        "路程遥远",
+        "旺季住宿贵"
+      ],
+      "best_time": "9月中下旬金秋",
+      "tips": "乌鲁木齐到喀纳斯车程远建议飞机到喀纳斯机场；景区门票+区间车分区间购；贾登峪住宿提前订。"
+    }
+  },
+  {
+    "id": "CN-0055",
+    "name": "黄果树风景名胜区",
+    "province": "贵州省",
+    "city": "安顺",
+    "type": "自然",
+    "level": "5A",
+    "rating": 4.8,
+    "review_count": "5.3w",
+    "description": "亚洲第一大瀑布，77.8米高的水帘从天而降，水帘洞可以从瀑布背后穿行。陡坡塘的轰鸣与天星桥的玲珑各有惊喜。",
+    "images": [
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Huangguoshu%20dapubu.jpg?width=800"
+    ],
+    "latitude": 25.984,
+    "longitude": 105.67,
+    "best_season": "夏季",
+    "tags": [
+      "瀑布",
+      "水帘洞",
+      "喀斯特"
+    ],
+    "avoid": {
+      "avoid_index": 2.5,
+      "avoid_tags": [
+        "扶梯自费",
+        "雨季人多"
+      ],
+      "best_time": "6-10月丰水期",
+      "tips": "大扶梯往返另收费可步行；水帘洞人多湿滑备雨衣；三个景区间观光车联通合理安排顺序。"
+    }
+  },
+  {
+    "id": "CN-0056",
+    "name": "荔波樟江风景名胜区",
+    "province": "贵州省",
+    "city": "黔南州",
+    "type": "自然",
+    "level": "5A",
+    "rating": 4.8,
+    "review_count": "2.1w",
+    "description": "地球腰带上的绿宝石，小七孔古桥下的湖水绿得通透。68级跌水瀑布层层叠叠，鸳鸯湖泛舟于水上迷宫。",
+    "images": [
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Libo%2C%20Qiannan%2C%20Guizhou%2C%20China%20-%20panoramio%20%2838%29.jpg?width=800"
+    ],
+    "latitude": 25.279,
+    "longitude": 107.884,
+    "best_season": "夏季",
+    "tags": [
+      "世界遗产",
+      "小七孔",
+      "绿宝石"
+    ],
+    "avoid": {
+      "avoid_index": 2.1,
+      "avoid_tags": [
+        "景区步行距离长",
+        "雨后水浑"
+      ],
+      "best_time": "夏季玩水避暑",
+      "tips": "小七孔全程步行约4小时穿舒适鞋；大七孔与小七孔分开购票；避开大雨后两天水质最清。"
+    }
+  },
+  {
+    "id": "CN-0057",
+    "name": "西江千户苗寨",
+    "province": "贵州省",
+    "city": "黔东南州",
+    "type": "名胜",
+    "level": "4A",
+    "rating": 4.5,
+    "review_count": "2.7w",
+    "description": "全世界最大的苗族聚居村寨，千余栋吊脚楼依山而建，夜晚灯火如星河倾泻山谷。长桌宴与苗银歌舞尽显民族风情。",
+    "images": [
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Xijiang%20Miao%20Village.jpg?width=800"
+    ],
+    "latitude": 26.503,
+    "longitude": 108.308,
+    "best_season": "全年",
+    "tags": [
+      "苗寨",
+      "夜景",
+      "民族风情"
+    ],
+    "avoid": {
+      "avoid_index": 3.0,
+      "avoid_tags": [
+        "商业味渐浓",
+        "观景台拥挤"
+      ],
+      "best_time": "苗年与鼓藏节期间",
+      "tips": "夜景是精华傍晚前上山占位；长桌宴人均消费先问清；银饰购买认准正规银号。"
+    }
+  },
+  {
+    "id": "CN-0058",
+    "name": "蓬莱阁旅游区",
+    "province": "山东省",
+    "city": "烟台",
+    "type": "名胜",
+    "level": "5A",
+    "rating": 4.6,
+    "review_count": "2.2w",
+    "description": "人间仙境蓬莱阁，八仙过海的传说诞生于此。蓬莱水城是中国现存最完整的古代军港，运气好还能偶遇海市蜃楼。",
+    "images": [
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Penglaige.jpg?width=800"
+    ],
+    "latitude": 37.822,
+    "longitude": 120.757,
+    "best_season": "夏季",
+    "tags": [
+      "人间仙境",
+      "海市蜃楼",
+      "八仙"
+    ],
+    "avoid": {
+      "avoid_index": 2.3,
+      "avoid_tags": [
+        "海市蜃楼难遇",
+        "周边赶海收费"
+      ],
+      "best_time": "5-9月",
+      "tips": "海市蜃楼可遇不可求勿被忽悠；田横山跨海索道另收费；三仙山景区与蓬莱阁是分开的门票。"
+    }
+  },
+  {
+    "id": "CN-0059",
+    "name": "五大连池风景区",
+    "province": "黑龙江省",
+    "city": "黑河",
+    "type": "自然",
+    "level": "5A",
+    "rating": 4.6,
+    "review_count": "1.2w",
+    "description": "天然火山博物馆，十四座火山锥与五个串珠湖泊记录着两百年前的喷发。翻花石海如凝固的岩浆波涛，冷矿泉世界闻名。",
+    "images": [
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Wudalianchi%20Dedu%20Airport%2C%20Aug%202019.jpg?width=800"
+    ],
+    "latitude": 48.718,
+    "longitude": 126.201,
+    "best_season": "夏季",
+    "tags": [
+      "火山",
+      "矿泉",
+      "熔岩"
+    ],
+    "avoid": {
+      "avoid_index": 1.7,
+      "avoid_tags": [
+        "景点分散",
+        "最佳季节短"
+      ],
+      "best_time": "6-9月",
+      "tips": "老黑山与火烧山是精华先去；矿泉水不同泉眼味道不同都可尝；景区间距离远自驾更方便。"
+    }
+  },
+  {
+    "id": "CN-0060",
+    "name": "云冈石窟",
+    "province": "山西省",
+    "city": "大同",
+    "type": "名胜",
+    "level": "5A",
+    "rating": 4.8,
+    "review_count": "3.3w",
+    "description": "北魏皇家风范的石窟艺术宝库，第五六窟的中心塔柱与万佛洞雕饰华美。昙曜五窟的大佛雄浑大气，露天大佛是云冈的名片。",
+    "images": [
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Yungang11%202010.JPG?width=800"
+    ],
+    "latitude": 40.112,
+    "longitude": 113.132,
+    "best_season": "5-10月",
+    "tags": [
+      "世界遗产",
+      "佛教石刻",
+      "北魏"
+    ],
+    "avoid": {
+      "avoid_index": 2.1,
+      "avoid_tags": [
+        "交通接驳",
+        "冬季寒冷"
+      ],
+      "best_time": "5-10月",
+      "tips": "大同市区公交直达；讲解值得请听北魏历史；可与悬空寺联游一日。"
+    }
   }
 ]

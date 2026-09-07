@@ -16,8 +16,8 @@ from app.services.deepseek_client import deepseek_client
 
 # 景区数据路径
 DATA_DIR = Path(__file__).parent.parent.parent / "data"
-SCENIC_SPOTS_PATH = _data_dir.joinpath("scenic_spots.json")
 _data_dir = Path(DATA_DIR).resolve()
+SCENIC_SPOTS_PATH = _data_dir.joinpath("scenic_spots.json")
 OUTPUT_PATH = _data_dir.joinpath("avoid_analysis.json")  # 常量目录 + 常量文件名，无用户输入参与
 
 # 为每个景区生成模拟评价数据

@@ -67,7 +67,7 @@ def main():
         # ---------- 后端核心接口 ----------
         print("\n[后端 · 景区数据]")
         r = client.get("/api/stats")
-        check("统计 /api/stats", r.status_code == 200 and r.json().get("total_spots") == 20)
+        check("统计 /api/stats", r.status_code == 200 and (r.json().get("total_spots") or 0) >= 60)
         r = client.get("/api/spots?page_size=5")
         check("列表 /api/spots", r.status_code == 200 and len(r.json().get("items", [])) == 5)
         r = client.get("/api/spots/CN-0004")
@@ -79,7 +79,7 @@ def main():
         r = client.get("/api/provinces")
         check("省份 /api/provinces", r.status_code == 200 and r.json().get("total", 0) >= 5)
         r = client.get("/api/avoid/batch")
-        check("批量避雷 /api/avoid/batch", r.status_code == 200 and r.json().get("count") == 20)
+        check("批量避雷 /api/avoid/batch", r.status_code == 200 and (r.json().get("count") or 0) >= 60)
         r = client.get("/api/avoid/batch/CN-0004")
         check("单景区避雷 /api/avoid/batch/{id}", r.status_code == 200 and r.json().get("success"))
 
