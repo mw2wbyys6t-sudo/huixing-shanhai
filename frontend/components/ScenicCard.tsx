@@ -2,8 +2,10 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
-import { MapPin, Star, MessageCircle, AlertTriangle, Clock } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import { MapPin, Star, MessageCircle, AlertTriangle, Clock, Heart } from 'lucide-react';
 import type { ScenicSpot } from '@/lib/api';
+import { isFavorite, toggleFavorite } from '@/lib/user-prefs';
 
 interface ScenicCardProps {
   spot: ScenicSpot;
@@ -11,6 +13,22 @@ interface ScenicCardProps {
 }
 
 export default function ScenicCard({ spot, index = 0 }: ScenicCardProps) {
+  const [fav, setFav] = useState(false);
+
+  // 挂载后读取收藏状态，并跟随全局收藏变化
+  useEffect(() => {
+    const sync = () => setFav(isFavorite(spot.id));
+    sync();
+    window.addEventListener('huixing-fav-changed', sync);
+    return () => window.removeEventListener('huixing-fav-changed', sync);
+  }, [spot.id]);
+
+  const handleFav = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setFav(toggleFavorite(spot.id));
+  };
+
   const avoidLevel = spot.avoid.avoid_index >= 3 ? 'high' : spot.avoid.avoid_index >= 2 ? 'medium' : 'low';
   const avoidColor = avoidLevel === 'high' ? 'text-red-400' : avoidLevel === 'medium' ? 'text-yellow-400' : 'text-green-400';
   const avoidBg = avoidLevel === 'high' ? 'bg-red-500/20 border-red-500/30' : avoidLevel === 'medium' ? 'bg-yellow-500/20 border-yellow-500/30' : 'bg-green-500/20 border-green-500/30';
@@ -38,7 +56,7 @@ export default function ScenicCard({ spot, index = 0 }: ScenicCardProps) {
         )}
         {/* 渐变遮罩 */}
         <div className="absolute inset-0 bg-gradient-to-t from-dark-900/80 via-transparent to-transparent" />
-        
+
         {/* 等级标签（5A 金色 / 4A 银色，其余灰色） */}
         <div
           className={`absolute top-3 left-3 px-2 py-1 rounded-md text-white text-xs font-bold ${
@@ -51,12 +69,22 @@ export default function ScenicCard({ spot, index = 0 }: ScenicCardProps) {
         >
           {spot.level}
         </div>
-        
+
         {/* 避雷指数 */}
         <div className={`absolute top-3 right-3 px-2 py-1 rounded-md border ${avoidBg} flex items-center gap-1`}>
           <AlertTriangle className={`w-3 h-3 ${avoidColor}`} />
           <span className={`text-xs font-bold ${avoidColor}`}>避雷 {spot.avoid.avoid_index}</span>
         </div>
+
+        {/* 心愿单收藏（常显，点按不跳转） */}
+        <button
+          onClick={handleFav}
+          aria-label={fav ? '移出心愿单' : '加入心愿单'}
+          aria-pressed={fav}
+          className="absolute bottom-3 right-3 w-8 h-8 rounded-full bg-dark-900/60 backdrop-blur-sm flex items-center justify-center hover:scale-110 transition-transform"
+        >
+          <Heart className={`w-4 h-4 transition-all ${fav ? 'text-red-400 fill-red-400' : 'text-white'}`} />
+        </button>
       </div>
 
       {/* 内容区域 */}
@@ -64,7 +92,7 @@ export default function ScenicCard({ spot, index = 0 }: ScenicCardProps) {
         <h3 className="text-lg font-bold text-white mb-2 group-hover:text-amber-400 transition-colors">
           {spot.name}
         </h3>
-        
+
         <div className="flex items-center gap-2 text-sm text-gray-400 mb-2">
           <MapPin className="w-4 h-4" />
           <span>{spot.province} · {spot.city}</span>

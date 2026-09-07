@@ -21,6 +21,7 @@ import {
 } from 'lucide-react';
 import ClayIcon from '@/components/ClayIcon';
 import { authAPI, setAuth } from '@/lib/api';
+import { mergePrefsOnLogin } from '@/lib/user-prefs';
 
 export default function LoginPage() {
   const router = useRouter();
@@ -98,6 +99,8 @@ export default function LoginPage() {
           : await authAPI.loginByCode(phone.trim(), code.trim());
 
       setAuth(result.token, result.user);
+      // 登录后同步云端偏好（心愿单/足迹与本地合并）
+      void mergePrefsOnLogin();
       router.push('/');
     } catch (err) {
       setError(err instanceof Error ? err.message : '登录失败，请稍后重试');

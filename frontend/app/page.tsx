@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { Search, MapPin, Compass, AlertTriangle, Sparkles, ChevronRight, Star, Clock, Heart } from 'lucide-react';
@@ -9,6 +9,7 @@ import ScenicCard from '@/components/ScenicCard';
 import ClayIcon from '@/components/ClayIcon';
 import { scenicAPI, type ScenicSpot } from '@/lib/api';
 import { getVisitHistory, getFavorites, type VisitRecord } from '@/lib/user-prefs';
+import scenicData from '@/lib/scenic_data.json';
 
 const heroSlides = [
   {
@@ -48,11 +49,39 @@ export default function HomePage() {
   const [loading, setLoading] = useState(true);
   const [history, setHistory] = useState<VisitRecord[]>([]);
   const [favIds, setFavIds] = useState<string[]>([]);
+  const [suggestOpen, setSuggestOpen] = useState(false);
+  const [suggestIndex, setSuggestIndex] = useState(-1);
 
-  // 读取本地足迹与心愿单（客户端挂载后）
+  // 搜索联想：本地景区库匹配（名称/城市/省份/标签），最多 6 条
+  const suggestions = useMemo(() => {
+    const q = searchQuery.trim().toLowerCase();
+    if (!q) return [];
+    return (scenicData as ScenicSpot[])
+      .filter(
+        (s) =>
+          s.name.toLowerCase().includes(q) ||
+          s.city.toLowerCase().includes(q) ||
+          s.province.toLowerCase().includes(q) ||
+          s.tags.some((t) => t.toLowerCase().includes(q))
+      )
+      .slice(0, 6);
+  }, [searchQuery]);
+
+  const pickSuggestion = (id: string) => {
+    setSuggestOpen(false);
+    setSuggestIndex(-1);
+    router.push(`/detail/${id}`);
+  };
+
+  // 读取本地足迹与心愿单（客户端挂载后），并跟随全局收藏变化
   useEffect(() => {
-    setHistory(getVisitHistory());
-    setFavIds(getFavorites());
+    const sync = () => {
+      setHistory(getVisitHistory());
+      setFavIds(getFavorites());
+    };
+    sync();
+    window.addEventListener('huixing-fav-changed', sync);
+    return () => window.removeEventListener('huixing-fav-changed', sync);
   }, []);
 
   // 自动轮播
@@ -123,8 +152,8 @@ export default function HomePage() {
               不做信息聚合，做体验前置；不做纯推荐，做避雷导航
             </p>
 
-            {/* 搜索框 */}
-            <form onSubmit={handleSearch} className="flex gap-2 mb-6">
+            {/* 搜索框（带联想下拉） */}
+            <form onSubmit={handleSearch} className="flex gap-2 mb-6 relative">
               <div className="flex-1 relative">
                 <div className="absolute left-4 top-1/2 -translate-y-1/2">
                   <ClayIcon name="search" size={20} alt="搜索" />
@@ -133,9 +162,53 @@ export default function HomePage() {
                   type="text"
                   placeholder="搜索景区名称、省份或城市..."
                   value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
+                  onChange={(e) => {
+                    setSearchQuery(e.target.value);
+                    setSuggestOpen(true);
+                    setSuggestIndex(-1);
+                  }}
+                  onFocus={() => setSuggestOpen(true)}
+                  onBlur={() => setTimeout(() => setSuggestOpen(false), 150)}
+                  onKeyDown={(e) => {
+                    if (!suggestOpen || suggestions.length === 0) return;
+                    if (e.key === 'ArrowDown') {
+                      e.preventDefault();
+                      setSuggestIndex((i) => (i + 1) % suggestions.length);
+                    } else if (e.key === 'ArrowUp') {
+                      e.preventDefault();
+                      setSuggestIndex((i) => (i - 1 + suggestions.length) % suggestions.length);
+                    } else if (e.key === 'Enter' && suggestIndex >= 0) {
+                      e.preventDefault();
+                      pickSuggestion(suggestions[suggestIndex].id);
+                    } else if (e.key === 'Escape') {
+                      setSuggestOpen(false);
+                    }
+                  }}
+                  role="combobox"
+                  aria-expanded={suggestOpen && suggestions.length > 0}
+                  aria-label="搜索景区"
                   className="w-full pl-12 pr-4 py-3.5 rounded-xl glass text-white placeholder-gray-400 focus:outline-none focus:border-amber-500/50 transition-all"
                 />
+                {/* 联想下拉 */}
+                {suggestOpen && suggestions.length > 0 && (
+                  <div className="absolute top-full left-0 right-0 mt-2 rounded-xl glass border border-white/10 overflow-hidden z-20 shadow-2xl">
+                    {suggestions.map((s, i) => (
+                      <button
+                        key={s.id}
+                        type="button"
+                        onMouseEnter={() => setSuggestIndex(i)}
+                        onClick={() => pickSuggestion(s.id)}
+                        className={`w-full flex items-center gap-3 px-4 py-2.5 text-left transition-colors ${
+                          i === suggestIndex ? 'bg-amber-500/15' : 'hover:bg-white/5'
+                        }`}
+                      >
+                        <MapPin className="w-4 h-4 text-amber-400 flex-shrink-0" />
+                        <span className="text-sm text-white truncate">{s.name}</span>
+                        <span className="text-xs text-gray-500 ml-auto flex-shrink-0">{s.province} · {s.city}</span>
+                      </button>
+                    ))}
+                  </div>
+                )}
               </div>
               <button
                 type="submit"

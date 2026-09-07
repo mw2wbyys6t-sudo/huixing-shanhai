@@ -28,9 +28,12 @@ function ExploreContent() {
 
   const types = ['全部', '名胜', '自然', '亲子', '城市'];
 
-  // 读取心愿单（客户端挂载后）
+  // 读取心愿单（客户端挂载后），并跟随全局收藏变化
   useEffect(() => {
-    setFavIds(getFavorites());
+    const sync = () => setFavIds(getFavorites());
+    sync();
+    window.addEventListener('huixing-fav-changed', sync);
+    return () => window.removeEventListener('huixing-fav-changed', sync);
   }, []);
 
   // 搜索防抖 300ms：停止输入后才触发请求

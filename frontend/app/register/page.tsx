@@ -19,6 +19,7 @@ import {
 } from 'lucide-react';
 import ClayIcon from '@/components/ClayIcon';
 import { authAPI, setAuth } from '@/lib/api';
+import { mergePrefsOnLogin } from '@/lib/user-prefs';
 
 export default function RegisterPage() {
   const router = useRouter();
@@ -107,6 +108,7 @@ export default function RegisterPage() {
         username: username.trim(),
       });
       setAuth(result.token, result.user);
+      void mergePrefsOnLogin();
       router.push('/');
     } catch (err) {
       setError(err instanceof Error ? err.message : '注册失败，请稍后重试');

@@ -37,7 +37,7 @@ from app.services.auth_service import (
     is_hashed,
 )
 from app.database import get_db, init_db, SessionLocal
-from app.models import Review, UGCPhoto, WorkflowLog
+from app.models import Review, UGCPhoto, WorkflowLog, UserPrefs
 from fastapi import Depends, UploadFile, File, Form
 from fastapi.responses import StreamingResponse
 from sqlalchemy.orm import Session
@@ -619,8 +619,7 @@ async def reset_password(request: Request, reset: ResetPasswordRequest, db: Sess
     return {"success": True, "message": "密码重置成功，请使用新密码登录"}
 
 @app.get("/api/auth/user")
-async def get_user_info(
-    token: str = Query(..., description="登录token"),
+async def get_user_info(    token: str = Query(..., description="登录token"),
     db: Session = Depends(get_db),
 ):
     """获取当前用户信息"""
@@ -653,6 +652,41 @@ class ChatResponse(BaseModel):
     conversation_id: str
     type: str = "text"
     data: Optional[dict] = None
+
+# ==================== 用户偏好同步 API（心愿单/足迹云端持久化） ====================
+class UserPrefsRequest(BaseModel):
+    favorites: List[str] = []
+    history: List[dict] = []
+
+
+def _require_login_user(request: Request, db: Session) -> dict:
+    """从 Authorization 头解析登录用户，未登录抛 401"""
+    user = get_optional_user(request, db)
+    if not user:
+        raise HTTPException(status_code=401, detail="请先登录")
+    return user
+
+
+@app.get("/api/user/prefs")
+async def get_user_prefs(request: Request, db: Session = Depends(get_db)):
+    """拉取当前用户的心愿单与浏览足迹"""
+    user = _require_login_user(request, db)
+    row = db.query(UserPrefs).filter(UserPrefs.user_id == user["id"]).first()
+    return {"success": True, "prefs": row.to_dict() if row else {"favorites": [], "history": []}}
+
+
+@app.put("/api/user/prefs")
+async def put_user_prefs(request: Request, prefs_req: UserPrefsRequest, db: Session = Depends(get_db)):
+    """保存当前用户的心愿单与浏览足迹（整包覆盖，由前端在合并后调用）"""
+    user = _require_login_user(request, db)
+    row = db.query(UserPrefs).filter(UserPrefs.user_id == user["id"]).first()
+    if not row:
+        row = UserPrefs(user_id=user["id"])
+        db.add(row)
+    row.favorites = json.dumps(prefs_req.favorites[:100], ensure_ascii=False)
+    row.history = json.dumps(prefs_req.history[:20], ensure_ascii=False)
+    db.commit()
+    return {"success": True}
 
 # 模拟 AI 响应库
 MOCK_AI_RESPONSES = {
