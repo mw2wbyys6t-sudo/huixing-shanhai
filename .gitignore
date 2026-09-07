@@ -1,0 +1,24 @@
+# 密钥与环境变量
+.env
+*.env
+!.env.example
+
+# Python
+__pycache__/
+*.py[cod]
+venv/
+.venv/
+
+# Node / Next.js
+node_modules/
+.next/
+out/
+.vercel/
+
+# 数据库与上传文件
+*.db
+backend/uploads/
+
+# IDE / 工具
+.DS_Store
+.mimosa/

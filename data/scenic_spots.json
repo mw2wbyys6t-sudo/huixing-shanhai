@@ -1,0 +1,609 @@
+[
+  {
+    "id": "CN-0001",
+    "name": "故宫博物院",
+    "province": "北京市",
+    "city": "北京",
+    "type": "名胜",
+    "level": "5A",
+    "rating": 4.1,
+    "review_count": "2.3w",
+    "description": "世界最大的宫殿建筑群，明清两代皇家宫殿，藏品丰富。",
+    "images": [
+      "https://commons.wikimedia.org/wiki/Special:FilePath/The_Forbidden_City,_Beijing,_China_(%E6%95%85%E5%AE%AB%E5%8D%9A%E7%89%A9%E9%99%A2).jpg?width=800"
+    ],
+    "latitude": 39.9163,
+    "longitude": 116.3972,
+    "best_season": "全年",
+    "tags": [
+      "名胜",
+      "自然"
+    ],
+    "avoid": {
+      "avoid_index": 3.2,
+      "avoid_tags": [
+        "人多拥挤",
+        "排队严重",
+        "旺季体验差"
+      ],
+      "best_time": "淡季工作日",
+      "tips": "建议早上8:30前入场，避开中午高峰"
+    }
+  },
+  {
+    "id": "CN-0002",
+    "name": "八达岭长城",
+    "province": "北京市",
+    "city": "北京",
+    "type": "名胜",
+    "level": "5A",
+    "rating": 4.0,
+    "review_count": "1.8w",
+    "description": "万里长城精华段，雄伟壮观，中华民族的象征。",
+    "images": [
+      "https://commons.wikimedia.org/wiki/Special:FilePath/%E5%85%AB%E8%BE%BE%E5%B2%AD%E9%95%BF%E5%9F%8E_-_panoramio.jpg?width=800"
+    ],
+    "latitude": 40.3585,
+    "longitude": 116.0201,
+    "best_season": "全年",
+    "tags": [
+      "名胜",
+      "自然"
+    ],
+    "avoid": {
+      "avoid_index": 3.5,
+      "avoid_tags": [
+        "人多拥挤",
+        "索道排队",
+        "旺季人挤人"
+      ],
+      "best_time": "春秋淡季",
+      "tips": "建议坐滑车到北四楼，再步行登顶"
+    }
+  },
+  {
+    "id": "CN-0003",
+    "name": "天津古文化街旅游区",
+    "province": "天津市",
+    "city": "天津",
+    "type": "名胜",
+    "level": "5A",
+    "rating": 4.2,
+    "review_count": "2.2w",
+    "description": "津门十景之一，汇聚传统手工艺和民俗文化。",
+    "images": [
+      "https://commons.wikimedia.org/wiki/Special:FilePath/%E5%A4%A9%E6%B4%A5%E5%8F%A4%E6%96%87%E5%8C%96%E8%A1%97.jpg?width=800"
+    ],
+    "latitude": 39.1487,
+    "longitude": 117.1937,
+    "best_season": "全年",
+    "tags": [
+      "名胜",
+      "自然"
+    ],
+    "avoid": {
+      "avoid_index": 2.0,
+      "avoid_tags": [
+        "商业化重",
+        "小吃贵"
+      ],
+      "best_time": "工作日",
+      "tips": "逛逛即可，不建议在里面吃正餐"
+    }
+  },
+  {
+    "id": "CN-0004",
+    "name": "盘山风景名胜区",
+    "province": "天津市",
+    "city": "天津",
+    "type": "自然",
+    "level": "5A",
+    "rating": 4.6,
+    "review_count": "9819",
+    "description": "京东第一山，自然风光与佛教文化交融。",
+    "images": [
+      "https://commons.wikimedia.org/wiki/Special:FilePath/%E7%9B%98%E5%B1%B1%E9%A1%B6%E5%B3%B0_-_Summit_of_Mount_Panshan_-_2015.10_-_panoramio.jpg?width=800"
+    ],
+    "latitude": 40.0728,
+    "longitude": 117.4514,
+    "best_season": "全年",
+    "tags": [
+      "自然",
+      "自然"
+    ],
+    "avoid": {
+      "avoid_index": 2.5,
+      "avoid_tags": [
+        "索道贵",
+        "爬山累"
+      ],
+      "best_time": "秋季",
+      "tips": "建议坐索道上山，步行下山看风景"
+    }
+  },
+  {
+    "id": "CN-0005",
+    "name": "山海关景区",
+    "province": "河北省",
+    "city": "秦皇岛",
+    "type": "名胜",
+    "level": "5A",
+    "rating": 4.5,
+    "review_count": "3.3w",
+    "description": "天下第一关，明长城的东部起点。",
+    "images": [
+      "https://commons.wikimedia.org/wiki/Special:FilePath/%E6%B2%B3%E5%8C%97%E7%9C%81_%E5%A4%A9%E4%B8%8B%E7%AC%AC%E4%B8%80%E5%85%B3_-_panoramio.jpg?width=800"
+    ],
+    "latitude": 39.9786,
+    "longitude": 119.7683,
+    "best_season": "全年",
+    "tags": [
+      "名胜",
+      "自然"
+    ],
+    "avoid": {
+      "avoid_index": 2.8,
+      "avoid_tags": [
+        "部分景点维修",
+        "商业化"
+      ],
+      "best_time": "夏季",
+      "tips": "老龙头和天下第一关必看，其他可选"
+    }
+  },
+  {
+    "id": "CN-0006",
+    "name": "避暑山庄及周围寺庙",
+    "province": "河北省",
+    "city": "承德",
+    "type": "名胜",
+    "level": "5A",
+    "rating": 4.0,
+    "review_count": "9511",
+    "description": "清代皇家园林，融合汉藏蒙建筑艺术。",
+    "images": [
+      "https://commons.wikimedia.org/wiki/Special:FilePath/%E6%89%BF%E5%BE%B7%E9%81%BF%E6%9A%91%E5%B1%B1%E5%BA%84%E7%83%9F%E6%B3%A2%E8%87%B4%E7%88%BD%E6%AE%BF2025.11_(1).jpg?width=800"
+    ],
+    "latitude": 40.9998,
+    "longitude": 117.9484,
+    "best_season": "全年",
+    "tags": [
+      "名胜",
+      "自然"
+    ],
+    "avoid": {
+      "avoid_index": 2.2,
+      "avoid_tags": [
+        "面积大走得累",
+        "旺季人多"
+      ],
+      "best_time": "夏季",
+      "tips": "建议坐景区观光车，否则一天走不完"
+    }
+  },
+  {
+    "id": "CN-0007",
+    "name": "平遥古城",
+    "province": "山西省",
+    "city": "晋中",
+    "type": "名胜",
+    "level": "5A",
+    "rating": 4.4,
+    "review_count": "1.9w",
+    "description": "保存最完整的明清古城，晋商文化发源地。",
+    "images": [
+      "https://commons.wikimedia.org/wiki/Special:FilePath/1_pingyao_ancient_city_aerial_pano_2019.jpg?width=800"
+    ],
+    "latitude": 37.1902,
+    "longitude": 112.1762,
+    "best_season": "全年",
+    "tags": [
+      "名胜",
+      "自然"
+    ],
+    "avoid": {
+      "avoid_index": 3.0,
+      "avoid_tags": [
+        "人多拥挤",
+        "住宿贵",
+        "商业化"
+      ],
+      "best_time": "淡季",
+      "tips": "建议住古城内，清晨拍照人少"
+    }
+  },
+  {
+    "id": "CN-0008",
+    "name": "五台山风景名胜区",
+    "province": "山西省",
+    "city": "忻州",
+    "type": "名胜",
+    "level": "5A",
+    "rating": 4.0,
+    "review_count": "7523",
+    "description": "中国四大佛教名山之一，文殊菩萨道场。",
+    "images": [
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Administrative_Committee_of_Wutaishan_Scenic_Area_(20240608093410).jpg?width=800"
+    ],
+    "latitude": 39.0347,
+    "longitude": 113.5759,
+    "best_season": "全年",
+    "tags": [
+      "名胜",
+      "自然"
+    ],
+    "avoid": {
+      "avoid_index": 2.5,
+      "avoid_tags": [
+        "旺季堵车",
+        "香火味重"
+      ],
+      "best_time": "夏季",
+      "tips": "建议自驾或包车，景区内交通不便"
+    }
+  },
+  {
+    "id": "CN-0009",
+    "name": "呼伦贝尔大草原·莫尔格勒河景区",
+    "province": "内蒙古自治区",
+    "city": "呼伦贝尔",
+    "type": "自然",
+    "level": "5A",
+    "rating": 4.7,
+    "review_count": "2.1w",
+    "description": "天苍苍野茫茫，风吹草低见牛羊。",
+    "images": [
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Hulunbuir_Grasslands,_Inner_Mongolia.jpg?width=800"
+    ],
+    "latitude": 49.2152,
+    "longitude": 119.7569,
+    "best_season": "全年",
+    "tags": [
+      "自然",
+      "自然"
+    ],
+    "avoid": {
+      "avoid_index": 1.5,
+      "avoid_tags": [
+        "距离远",
+        "住宿条件一般"
+      ],
+      "best_time": "7-8月",
+      "tips": "建议包车深度游，不要只打卡一个点"
+    }
+  },
+  {
+    "id": "CN-0010",
+    "name": "成吉思汗陵旅游区",
+    "province": "内蒙古自治区",
+    "city": "鄂尔多斯",
+    "type": "名胜",
+    "level": "5A",
+    "rating": 4.4,
+    "review_count": "3.4w",
+    "description": "一代天骄成吉思汗的衣冠冢，蒙古族圣地。",
+    "images": [
+      "https://commons.wikimedia.org/wiki/Special:FilePath/%E6%88%90%E5%90%89%E6%80%9D%E6%B1%97%E9%99%B52021.jpg?width=800"
+    ],
+    "latitude": 39.3839,
+    "longitude": 109.7922,
+    "best_season": "全年",
+    "tags": [
+      "名胜",
+      "自然"
+    ],
+    "avoid": {
+      "avoid_index": 2.0,
+      "avoid_tags": [
+        "门票贵",
+        "内容少"
+      ],
+      "best_time": "夏季",
+      "tips": "对历史感兴趣的值得去，否则可选"
+    }
+  },
+  {
+    "id": "CN-0011",
+    "name": "沈阳故宫",
+    "province": "辽宁省",
+    "city": "沈阳",
+    "type": "名胜",
+    "level": "5A",
+    "rating": 4.6,
+    "review_count": "9458",
+    "description": "清朝入关前的皇宫，满族建筑风格。",
+    "images": [
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Mukden_Palace_drone_view_5_(cropped_%26_rotated).jpg?width=800"
+    ],
+    "latitude": 41.7967,
+    "longitude": 123.4567,
+    "best_season": "全年",
+    "tags": [
+      "名胜",
+      "自然"
+    ],
+    "avoid": {
+      "avoid_index": 2.2,
+      "avoid_tags": [
+        "面积小",
+        "旺季人多"
+      ],
+      "best_time": "春秋",
+      "tips": "1小时可逛完，建议和大帅府一起看"
+    }
+  },
+  {
+    "id": "CN-0012",
+    "name": "金石滩国家旅游度假区",
+    "province": "辽宁省",
+    "city": "大连",
+    "type": "自然",
+    "level": "5A",
+    "rating": 4.2,
+    "review_count": "3.1w",
+    "description": "海蚀地貌奇观，北方最佳海滨度假地。",
+    "images": [
+      "https://commons.wikimedia.org/wiki/Special:FilePath/%E9%87%91%E7%9F%B3%E6%BB%A92.jpg?width=800"
+    ],
+    "latitude": 39.0756,
+    "longitude": 121.9556,
+    "best_season": "全年",
+    "tags": [
+      "自然",
+      "自然"
+    ],
+    "avoid": {
+      "avoid_index": 2.0,
+      "avoid_tags": [
+        "景点分散",
+        "交通不便"
+      ],
+      "best_time": "夏季",
+      "tips": "建议包车或自驾，发现王国值得玩"
+    }
+  },
+  {
+    "id": "CN-0013",
+    "name": "长白山景区",
+    "province": "吉林省",
+    "city": "延边",
+    "type": "自然",
+    "level": "5A",
+    "rating": 4.6,
+    "review_count": "1.2w",
+    "description": "天池、瀑布、温泉、原始森林，东北第一山。",
+    "images": [
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Heaven_Lake_-_Changbai_Mountain_(Aerial_photograph).jpg?width=800"
+    ],
+    "latitude": 42.0061,
+    "longitude": 128.0558,
+    "best_season": "全年",
+    "tags": [
+      "自然",
+      "自然"
+    ],
+    "avoid": {
+      "avoid_index": 3.0,
+      "avoid_tags": [
+        "天气多变",
+        "看不到天池",
+        "排队严重"
+      ],
+      "best_time": "7-8月",
+      "tips": "提前看天气预报，北坡看到天池概率最高"
+    }
+  },
+  {
+    "id": "CN-0014",
+    "name": "伪满皇宫博物院",
+    "province": "吉林省",
+    "city": "长春",
+    "type": "名胜",
+    "level": "5A",
+    "rating": 4.3,
+    "review_count": "8654",
+    "description": "伪满洲国皇宫旧址，了解近代历史。",
+    "images": [
+      "https://commons.wikimedia.org/wiki/Special:FilePath/%E4%BC%AA%E6%BB%A1%E7%9A%87%E5%AE%AB%E5%8D%9A%E7%89%A9%E9%99%A2.jpg?width=800"
+    ],
+    "latitude": 43.8896,
+    "longitude": 125.3339,
+    "best_season": "全年",
+    "tags": [
+      "名胜",
+      "自然"
+    ],
+    "avoid": {
+      "avoid_index": 2.0,
+      "avoid_tags": [
+        "内容沉重",
+        "部分区域维修"
+      ],
+      "best_time": "全年",
+      "tips": "建议租讲解器，否则看不懂历史背景"
+    }
+  },
+  {
+    "id": "CN-0015",
+    "name": "太阳岛风景区",
+    "province": "黑龙江省",
+    "city": "哈尔滨",
+    "type": "自然",
+    "level": "5A",
+    "rating": 4.1,
+    "review_count": "1.5w",
+    "description": "松花江上的明珠，冰雪大世界举办地。",
+    "images": [
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Harbin_Sun_Island_Waterfall_01.jpg?width=800"
+    ],
+    "latitude": 45.7814,
+    "longitude": 126.5178,
+    "best_season": "全年",
+    "tags": [
+      "自然",
+      "自然"
+    ],
+    "avoid": {
+      "avoid_index": 1.8,
+      "avoid_tags": [
+        "冬季才好玩",
+        "夏季一般"
+      ],
+      "best_time": "冬季",
+      "tips": "冰雪大世界期间必去，夏季可选"
+    }
+  },
+  {
+    "id": "CN-0016",
+    "name": "镜泊湖风景名胜区",
+    "province": "黑龙江省",
+    "city": "牡丹江",
+    "type": "自然",
+    "level": "5A",
+    "rating": 4.4,
+    "review_count": "7823",
+    "description": "中国最大的高山堰塞湖，吊水楼瀑布壮观。",
+    "images": [
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Jingpohu_Lake,_Jingpohu_Global_Geopark,_Heilongjiang,_China_(10_September_2014).jpg?width=800"
+    ],
+    "latitude": 44.0561,
+    "longitude": 128.9311,
+    "best_season": "全年",
+    "tags": [
+      "自然",
+      "自然"
+    ],
+    "avoid": {
+      "avoid_index": 2.0,
+      "avoid_tags": [
+        "游船贵",
+        "景点少"
+      ],
+      "best_time": "夏季",
+      "tips": "吊水楼瀑布必看，游船可选"
+    }
+  },
+  {
+    "id": "CN-0017",
+    "name": "上海野生动物园",
+    "province": "上海市",
+    "city": "上海",
+    "type": "亲子",
+    "level": "5A",
+    "rating": 4.2,
+    "review_count": "2.8w",
+    "description": "国家级野生动物园，亲子游好去处。",
+    "images": [
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Shanghai_Wild_Animal_Park_Main_Entrance.jpg?width=800"
+    ],
+    "latitude": 31.0444,
+    "longitude": 121.72,
+    "best_season": "全年",
+    "tags": [
+      "亲子",
+      "自然"
+    ],
+    "avoid": {
+      "avoid_index": 2.5,
+      "avoid_tags": [
+        "人多",
+        "动物少",
+        "投喂贵"
+      ],
+      "best_time": "工作日",
+      "tips": "建议早上入园，动物更活跃"
+    }
+  },
+  {
+    "id": "CN-0018",
+    "name": "东方明珠广播电视塔",
+    "province": "上海市",
+    "city": "上海",
+    "type": "城市",
+    "level": "5A",
+    "rating": 4.3,
+    "review_count": "3.5w",
+    "description": "上海地标，俯瞰黄浦江两岸风光。",
+    "images": [
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Oriental_Pearl_Tower_in_Shanghai.jpg?width=800"
+    ],
+    "latitude": 31.2397,
+    "longitude": 121.4998,
+    "best_season": "全年",
+    "tags": [
+      "城市",
+      "自然"
+    ],
+    "avoid": {
+      "avoid_index": 3.0,
+      "avoid_tags": [
+        "排队严重",
+        "门票贵",
+        "人挤人"
+      ],
+      "best_time": "工作日晚上",
+      "tips": "建议买快速通道票，否则排队2小时+"
+    }
+  },
+  {
+    "id": "CN-0019",
+    "name": "苏州园林（拙政园等）",
+    "province": "江苏省",
+    "city": "苏州",
+    "type": "名胜",
+    "level": "5A",
+    "rating": 4.5,
+    "review_count": "2.6w",
+    "description": "江南园林甲天下，拙政园为代表。",
+    "images": [
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Classical_Gardens_of_Suzhou_pavilion,_August_2016.jpg?width=800"
+    ],
+    "latitude": 31.3246,
+    "longitude": 120.6289,
+    "best_season": "全年",
+    "tags": [
+      "名胜",
+      "自然"
+    ],
+    "avoid": {
+      "avoid_index": 3.2,
+      "avoid_tags": [
+        "人多拥挤",
+        "旺季体验差",
+        "门票贵"
+      ],
+      "best_time": "淡季清晨",
+      "tips": "建议开门就进，9点后旅行团涌入"
+    }
+  },
+  {
+    "id": "CN-0020",
+    "name": "钟山风景名胜区",
+    "province": "江苏省",
+    "city": "南京",
+    "type": "名胜",
+    "level": "5A",
+    "rating": 4.3,
+    "review_count": "2.2w",
+    "description": "中山陵、明孝陵，南京的绿肺。",
+    "images": [
+      "https://commons.wikimedia.org/wiki/Special:FilePath/%E5%8D%97%E4%BA%AC%E9%92%9F%E5%B1%B1%E9%A3%8E%E6%99%AF%E5%90%8D%E8%83%9C%E5%8C%BA%E5%AF%BC%E8%A7%88%E5%9B%BE%E7%AA%97%E5%8F%A3_-_panoramio.jpg?width=800"
+    ],
+    "latitude": 32.0603,
+    "longitude": 118.845,
+    "best_season": "全年",
+    "tags": [
+      "名胜",
+      "自然"
+    ],
+    "avoid": {
+      "avoid_index": 2.0,
+      "avoid_tags": [
+        "面积大",
+        "走得累"
+      ],
+      "best_time": "春秋",
+      "tips": "建议坐景区观光车，中山陵和明孝陵必看"
+    }
+  }
+]

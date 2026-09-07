@@ -1,0 +1,35 @@
+# Render Blueprint：一键创建后端 API + 前端静态站
+# 使用方法：Render 控制台 → New → Blueprint → 选择本仓库 → Apply
+services:
+  - type: web
+    name: huixing-backend
+    runtime: python
+    rootDir: backend
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.12.6
+      - key: DEEPSEEK_API_KEY
+        sync: false        # 部署时在界面填入
+      - key: AMAP_KEY
+        sync: false        # 「Web服务」类型 Key
+      - key: SECRET_KEY
+        generateValue: true
+      - key: FRONTEND_URL
+        sync: false        # 部署后填前端地址（用于 CORS）
+
+  - type: web
+    name: huixing-frontend
+    runtime: node
+    rootDir: frontend
+    buildCommand: npm install && npm run build
+    startCommand: npx serve out -l $PORT
+    envVars:
+      - key: NODE_VERSION
+        value: 20.11.1
+      - key: NEXT_PUBLIC_API_URL
+        sync: false        # 部署后填后端地址（https://huixing-backend-xxxx.onrender.com）
+      - key: NEXT_PUBLIC_BASE_PATH
+        value: ""
