@@ -100,7 +100,7 @@ function ExploreContent() {
     loadSpots();
   }, [selectedProvince, selectedType, debouncedQuery]);
 
-  // 客户端排序 → 收藏筛选 → 分页
+  // 客户端排序 → 收藏筛选 → 分页（页码越界时钳制，防止筛选/搜索后落在空页）
   const filteredSpots = useMemo(() => {
     let list = [...spots];
     if (favOnly) list = list.filter((s) => favIds.includes(s.id));
@@ -110,10 +110,11 @@ function ExploreContent() {
   }, [spots, sortKey, favOnly, favIds]);
 
   const totalPages = Math.max(1, Math.ceil(filteredSpots.length / 12));
+  const safePage = Math.min(currentPage, totalPages);
   const pagedSpots = useMemo(() => {
-    const start = (currentPage - 1) * 12;
+    const start = (safePage - 1) * 12;
     return filteredSpots.slice(start, start + 12);
-  }, [filteredSpots, currentPage]);
+  }, [filteredSpots, safePage]);
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
@@ -137,11 +138,11 @@ function ExploreContent() {
       for (let i = 1; i <= totalPages; i++) pages.push(i);
     } else {
       pages.push(1);
-      if (currentPage > 3) pages.push('ellipsis-l');
-      for (let i = Math.max(2, currentPage - 1); i <= Math.min(totalPages - 1, currentPage + 1); i++) {
+      if (safePage > 3) pages.push('ellipsis-l');
+      for (let i = Math.max(2, safePage - 1); i <= Math.min(totalPages - 1, safePage + 1); i++) {
         pages.push(i);
       }
-      if (currentPage < totalPages - 2) pages.push('ellipsis-r');
+      if (safePage < totalPages - 2) pages.push('ellipsis-r');
       pages.push(totalPages);
     }
     return pages;
@@ -304,8 +305,8 @@ function ExploreContent() {
             {!searchQuery && totalPages > 1 && (
               <div className="flex items-center justify-center gap-2 mt-12">
                 <button
-                  onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
-                  disabled={currentPage === 1}
+                  onClick={() => setCurrentPage((p) => Math.max(1, Math.min(p, totalPages) - 1))}
+                  disabled={safePage === 1}
                   className="p-2 rounded-lg glass disabled:opacity-50 disabled:cursor-not-allowed hover:bg-white/10 transition-all"
                 >
                   <ChevronLeft className="w-5 h-5 text-white" />
@@ -316,7 +317,7 @@ function ExploreContent() {
                       key={page}
                       onClick={() => setCurrentPage(page)}
                       className={`w-10 h-10 rounded-lg font-semibold transition-all ${
-                        currentPage === page
+                        safePage === page
                           ? 'bg-gradient-to-r from-cyan-500 to-cyan-600 text-white'
                           : 'glass text-gray-300 hover:bg-white/10'
                       }`}
@@ -331,7 +332,7 @@ function ExploreContent() {
                 )}
                 <button
                   onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
-                  disabled={currentPage === totalPages}
+                  disabled={safePage === totalPages}
                   className="p-2 rounded-lg glass disabled:opacity-50 disabled:cursor-not-allowed hover:bg-white/10 transition-all"
                 >
                   <ChevronRight className="w-5 h-5 text-white" />

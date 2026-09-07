@@ -5,7 +5,7 @@ import scenicData from '@/lib/scenic_data.json';
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
 const basePath = process.env.NEXT_PUBLIC_BASE_PATH || '';
 
-// 静态导出参数 - 20个景区
+// 静态导出参数 - 全部景区
 export function generateStaticParams() {
   return scenicData.map((spot) => ({ id: spot.id }));
 }
@@ -23,6 +23,12 @@ export async function generateMetadata({ params }: { params: { id: string } }): 
 }
 
 // 结构化数据（TouristAttraction schema）
+// "4.5w" / "9819" 等点评数字符串解析为数字
+function parseReviewCount(text: string): number {
+  const m = text.match(/^([\d.]+)([w])?$/);
+  if (!m) return 1;
+  return m[2] ? Math.round(parseFloat(m[1]) * 10000) : parseInt(m[1], 10);
+}
 function JsonLd({ id }: { id: string }) {
   const spot = scenicData.find((s) => s.id === id);
   if (!spot) return null;
@@ -48,6 +54,7 @@ function JsonLd({ id }: { id: string }) {
       '@type': 'AggregateRating',
       ratingValue: spot.rating,
       bestRating: 5,
+      ratingCount: parseReviewCount(spot.review_count),
     },
   };
   return (

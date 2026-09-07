@@ -20,8 +20,13 @@ class UserPrefs(Base):
 
     def to_dict(self):
         import json
+        def _load(raw, fallback):
+            try:
+                return json.loads(raw) if raw else fallback
+            except (ValueError, TypeError):
+                return fallback
         return {
-            "favorites": json.loads(self.favorites) if self.favorites else [],
-            "history": json.loads(self.history) if self.history else [],
+            "favorites": _load(self.favorites, []),
+            "history": _load(self.history, []),
             "updated_at": self.updated_at.isoformat() if self.updated_at else None,
         }

@@ -2,7 +2,7 @@
 景区库扩充脚本：新增 40 个全国知名景区
 - 元数据（名称/坐标/等级/描述/避雷数据）基于公开常识性资料
 - 图片通过 Wikimedia Commons 搜索 API 获取真实存在的文件，逐张验证可访问
-- 产出：data/scenic_spots_new.json（供合并）
+- 产出：直接写回 data/scenic_spots.json（与现有数据合并）
 
 用法：python scripts/expand_spots.py
 """
@@ -48,7 +48,7 @@ NEW_SPOTS = [
     dict(_img_keyword="Lijiang old town", name="丽江古城", province="云南省", city="丽江", type="名胜", level="5A", rating=4.6, reviews="6.6w", lat=26.8720, lng=100.2350, season="全年", tags=["世界遗产", "古城", "纳西族"], desc="小桥流水人家的柔软时光，四方街的青石板路映着玉龙雪山。纳西古乐、东巴文字与酒吧民谣在同一座古城里共存。", avoid=dict(idx=3.2, tags=["酒吧消费套路", "鲜花饼店雷同"], best="秋冬淡季", tips="古城维护费已被抽查；酒吧消费先确认价格；玉龙雪山门票与氧气租用走正规渠道。")),
     dict(_img_keyword="Jade Dragon Snow Mountain", name="玉龙雪山景区", province="云南省", city="丽江", type="自然", level="5A", rating=4.7, reviews="4.9w", lat=27.1180, lng=100.1700, season="冬季", tags=["雪山", "冰川", "纳西圣山"], desc="纳西族心中的神山，十三峰终年积雪如银龙飞舞。大索道直上4506米冰川公园，蓝月谷的湖水蓝白相间如玉带。", avoid=dict(idx=2.9, tags=["高反明显", "索道票紧俏"], best="11-3月雪景最佳", tips="大索道票提前抢购常售罄；山上租羽绒服备氧气瓶；雪山脚下蓝月谷免费顺游。")),
     dict(_img_keyword="Three Pagodas Dali", name="崇圣寺三塔文化旅游区", province="云南省", city="大理", type="名胜", level="5A", rating=4.6, reviews="2.9w", lat=25.7180, lng=100.1480, season="春季", tags=["白族", "佛塔", "洱海"], desc="大理国的皇家寺院，三座千年白塔倒映在聚影池中与苍山洱海相映。三月街民族风情与风花雪月的浪漫在此交汇。", avoid=dict(idx=2.2, tags=["景区面积大", "周边租车压金"], best="3-5月", tips="倒影公园在三塔外需另购票；电瓶车代步省力；环洱海租车检查车况确认押金条款。")),
-    # ---------- 西北 ----------
+    # ---------- 西南 / 西北及其他 ----------
     dict(_img_keyword="Terracotta Army", name="秦始皇兵马俑博物馆", province="陕西省", city="西安", type="名胜", level="5A", rating=4.8, reviews="9.4w", lat=34.3840, lng=109.2780, season="全年", tags=["世界遗产", "考古", "秦代"], desc="世界第八大奇迹，八千陶俑军阵埋藏两千年依然军容严整。铜车马工艺登峰造极，一号坑的气势让人瞬间穿越回大秦帝国。", avoid=dict(idx=2.9, tags=["黑导游", "节假日限流"], best="3-5月与9-11月", tips="务必请官方讲解否则看的是土坑；门票实名预约制；兵马俑在临潼区距市区约1小时车程勿信40分钟到。")),
     dict(_img_keyword="Mount Hua", name="华山风景名胜区", province="陕西省", city="渭南", type="自然", level="5A", rating=4.8, reviews="5.4w", lat=34.4750, lng=110.0850, season="春秋", tags=["五岳", "险峰", "长空栈道"], desc="奇险天下第一山，长空栈道与鹞子翻身悬于绝壁。东西南北中五峰如莲花盛开，夜爬华山看日出是年轻背包客的仪式感。", avoid=dict(idx=2.6, tags=["长空栈道排队", "体力消耗极大"], best="4-6月与9-10月", tips="长空栈道安全绳费另收且排队久；北上西下路线最经典；旺季索道排队2小时起。")),
     dict(_img_keyword="Famen Temple", name="法门文化景区", province="陕西省", city="宝鸡", type="名胜", level="5A", rating=4.5, reviews="1.4w", lat=34.4380, lng=107.8990, season="全年", tags=["佛教", "舍利", "唐文化"], desc="关中塔庙始祖，因供奉佛祖释迦牟尼指骨舍利而成为佛教圣地。合十舍利塔庄严肃穆，地宫出土的唐代文物国宝云集。", avoid=dict(idx=2.4, tags=["商业化法物流通", "距市区远"], best="佛诞节日", tips="舍利只在特定时间开放瞻仰提前查询；合十舍利塔内理性消费；可与乾陵联游一天。")),
@@ -70,10 +70,6 @@ import time
 from pathlib import Path
 
 import httpx
-
-DATA_DIR = Path(__file__).resolve().parent.parent.parent / "data"
-COMMONS_API = "https://commons.wikimedia.org/w/api.php"
-FILE_PATH = "https://commons.wikimedia.org/wiki/Special:FilePath/"
 
 # 新增景区元数据（名称 / 省 / 市 / 类型 / 等级 / 评分 / 点评 / 坐标 / 最佳季节 / 标签 / 描述 / 避雷）
 
@@ -114,7 +110,6 @@ def main():
     with open(existing_path, encoding="utf-8") as f:
         spots = json.load(f)
 
-    existing_ids = {s["id"] for s in spots}
     start_idx = max(int(s["id"].split("-")[1]) for s in spots) + 1
 
     client = httpx.Client(headers={"User-Agent": "HuixingShanhai/1.0 (travel demo; contact: local)"})
@@ -123,10 +118,12 @@ def main():
     print(f"现有 {len(spots)} 个景区，开始扩充 {len(NEW_SPOTS)} 个新景区...\n")
 
     for i, meta in enumerate(NEW_SPOTS):
-        spot_id = f"CN-{start_idx + i:04d}"
         if meta["name"] in {s["name"] for s in spots}:
             print(f"  跳过（已存在）: {meta['name']}")
             continue
+
+        # id 在重名跳过判定之后分配，保证连续无空洞
+        spot_id = f"CN-{start_idx + len(added):04d}"
 
         print(f"[{i+1}/{len(NEW_SPOTS)}] {meta['name']} ...", end=" ")
         image = fetch_commons_image(client, meta.pop("_img_keyword", "")) if meta.get("_img_keyword") else None

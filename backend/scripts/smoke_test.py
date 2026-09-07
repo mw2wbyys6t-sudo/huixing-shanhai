@@ -58,7 +58,7 @@ def main():
         r = client.get("/api/spots")
         data = r.json()
         check("GET /api/spots 200", r.status_code == 200)
-        check("景区总数 20", data.get("total") == 20)
+        check("景区总数 >= 60", (data.get("total") or 0) >= 60)
         check("分页字段完整", all(k in data for k in ("page", "page_size", "total_pages", "items")))
 
         r = client.get("/api/spots", params={"province": "北京市", "page_size": 5})
@@ -83,6 +83,7 @@ def main():
         # ========== 认证闭环 ==========
         print("\n[认证闭环]")
         phone = "13900001111"
+        TEST_PASSWORD = secrets.token_hex(8)  # 每次运行随机生成，避免硬编码
         r = client.post("/api/auth/send-code", params={"phone": phone})
         check("发送验证码", r.status_code == 200 and r.json().get("success") is True)
         code_match = re.search(r"\b(\d{6})\b", r.json().get("message", ""))

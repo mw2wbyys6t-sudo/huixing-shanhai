@@ -31,5 +31,7 @@ services:
         value: 20.11.1
       - key: NEXT_PUBLIC_API_URL
         sync: false        # 部署后填后端地址（https://huixing-backend-xxxx.onrender.com）
+      - key: NEXT_PUBLIC_SITE_URL
+        sync: false        # 部署后填前端公开地址（sitemap/robots/OG 用）
       - key: NEXT_PUBLIC_BASE_PATH
         value: ""

@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { MapPin, Star, MessageCircle, AlertTriangle, Clock, Heart } from 'lucide-react';
 import type { ScenicSpot } from '@/lib/api';
 import { isFavorite, toggleFavorite } from '@/lib/user-prefs';
@@ -13,6 +14,7 @@ interface ScenicCardProps {
 }
 
 export default function ScenicCard({ spot, index = 0 }: ScenicCardProps) {
+  const router = useRouter();
   const [fav, setFav] = useState(false);
 
   // 挂载后读取收藏状态，并跟随全局收藏变化
@@ -34,9 +36,17 @@ export default function ScenicCard({ spot, index = 0 }: ScenicCardProps) {
   const avoidBg = avoidLevel === 'high' ? 'bg-red-500/20 border-red-500/30' : avoidLevel === 'medium' ? 'bg-yellow-500/20 border-yellow-500/30' : 'bg-green-500/20 border-green-500/30';
 
   return (
-    <Link
-      href={`/detail/${spot.id}`}
-      className="glass glass-hover rounded-2xl overflow-hidden block group animate-fade-in"
+    <div
+      role="link"
+      tabIndex={0}
+      onClick={() => router.push(`/detail/${spot.id}`)}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          router.push(`/detail/${spot.id}`);
+        }
+      }}
+      className="glass glass-hover rounded-2xl overflow-hidden block group animate-fade-in cursor-pointer"
       style={{ animationDelay: `${index * 0.05}s` }}
     >
       {/* 图片区域 */}
@@ -146,6 +156,6 @@ export default function ScenicCard({ spot, index = 0 }: ScenicCardProps) {
           ))}
         </div>
       </div>
-    </Link>
+    </div>
   );
 }

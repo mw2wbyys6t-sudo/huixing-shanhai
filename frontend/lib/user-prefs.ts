@@ -2,7 +2,7 @@
  * 用户本地偏好：浏览足迹 + 心愿单收藏
  * 纯 localStorage 实现，无需登录即可使用
  */
-import type { ScenicSpot } from './api';
+import { API_BASE_URL, getAuthToken, type ScenicSpot } from './api';
 
 const HISTORY_KEY = 'huixing_visit_history';
 const FAV_KEY = 'huixing_favorites';
@@ -66,8 +66,6 @@ export function toggleFavorite(spotId: string): boolean {
 }
 
 // ==================== 登录用户的云端同步 ====================
-import { API_BASE_URL, getAuthToken } from './api';
-
 let pushTimer: ReturnType<typeof setTimeout> | null = null;
 
 /** 已登录时节流推送本地偏好到云端（600ms 防抖） */
@@ -112,7 +110,9 @@ export async function mergePrefsOnLogin(): Promise<void> {
     const byId = new Map<string, VisitRecord>();
     for (const rec of [...localHistory, ...remoteHistory]) {
       const prev = byId.get(rec.id);
-      if (!prev || rec.visitedAt > prev.visitedAt) byId.set(rec.id, rec);
+      const at = rec.visitedAt || 0;
+      const prevAt = prev?.visitedAt || 0;
+      if (!prev || at > prevAt) byId.set(rec.id, { ...rec, visitedAt: at });
     }
     const mergedHistory = Array.from(byId.values()).sort((a, b) => b.visitedAt - a.visitedAt).slice(0, MAX_HISTORY);
 
