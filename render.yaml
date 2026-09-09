@@ -1,8 +1,10 @@
 # Render Blueprint：一键创建后端 API + 前端静态站
 # 使用方法：Render 控制台 → New → Blueprint → 选择本仓库 → Apply
+# 服务 URL 即：https://huixing-shanhai-api.onrender.com / https://huixing-shanhai-web.onrender.com
+# （若名称被占用 Render 会加随机后缀，部署后以控制台显示的地址为准）
 services:
   - type: web
-    name: huixing-backend
+    name: huixing-shanhai-api
     runtime: python
     rootDir: backend
     buildCommand: pip install -r requirements.txt
@@ -10,28 +12,31 @@ services:
     healthCheckPath: /
     envVars:
       - key: PYTHON_VERSION
-        value: 3.12.6
+        value: "3.12.6"
       - key: DEEPSEEK_API_KEY
-        sync: false        # 部署时在界面填入
+        sync: false        # 部署时在界面填入（backend/.env 里有）
       - key: AMAP_KEY
-        sync: false        # 「Web服务」类型 Key
+        sync: false        # 「Web服务」类型 Key（backend/.env 里有）
       - key: SECRET_KEY
         generateValue: true
       - key: FRONTEND_URL
-        sync: false        # 部署后填前端地址（用于 CORS）
+        value: https://huixing-shanhai-web.onrender.com
 
-  - type: web
-    name: huixing-frontend
-    runtime: node
+  - type: static
+    name: huixing-shanhai-web
     rootDir: frontend
     buildCommand: npm install && npm run build
-    startCommand: npx serve out -l $PORT
+    staticPublishPath: out
     envVars:
       - key: NODE_VERSION
-        value: 20.11.1
+        value: "20.11.1"
       - key: NEXT_PUBLIC_API_URL
-        sync: false        # 部署后填后端地址（https://huixing-backend-xxxx.onrender.com）
+        value: https://huixing-shanhai-api.onrender.com
       - key: NEXT_PUBLIC_SITE_URL
-        sync: false        # 部署后填前端公开地址（sitemap/robots/OG 用）
+        value: https://huixing-shanhai-web.onrender.com
       - key: NEXT_PUBLIC_BASE_PATH
         value: ""
+    headers:
+      - path: /*
+        name: Cache-Control
+        value: public, max-age=3600
