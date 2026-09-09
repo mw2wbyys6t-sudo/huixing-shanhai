@@ -22,3 +22,5 @@ backend/uploads/
 # IDE / 工具
 .DS_Store
 .mimosa/
+backend/scripts/.bili_home.html
+backend/scripts/.bili_cookies.txt
