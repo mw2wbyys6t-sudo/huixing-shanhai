@@ -1148,24 +1148,36 @@ async def workflow_plan(request: Request, wf_req: WorkflowRequest, db: Session =
 # ==================== 批量避雷分析结果 API ====================
 @app.get("/api/avoid/batch")
 async def get_batch_avoid_analysis():
-    """获取批量避雷分析结果（20个景区）"""
+    """获取批量避雷数据（全部景区：AI 分析结果 + 未分析景区的内置避雷数据）"""
     try:
+        results = []
+        analyzed: dict = {}
         analysis_path = Path(__file__).parent.parent.parent / "data" / "avoid_analysis.json"
         if analysis_path.exists():
             with open(analysis_path, "r", encoding="utf-8") as f:
-                data = json.load(f)
-            return {
-                "success": True,
-                "count": len(data),
-                "results": data,
-            }
-        else:
-            return {
-                "success": False,
-                "message": "批量分析结果不存在，请先运行批量分析脚本",
-                "count": 0,
-                "results": [],
-            }
+                raw = json.load(f)
+            analyzed = {a["spot_id"]: a for a in raw}
+
+        for spot in SCENIC_SPOTS:
+            if spot["id"] in analyzed:
+                results.append(analyzed[spot["id"]])
+            else:
+                # 未跑过 AI 分析的景区（如国际景区）回退到数据集自带的避雷字段
+                av = spot.get("avoid", {})
+                results.append({
+                    "spot_id": spot["id"],
+                    "spot_name": spot["name"],
+                    "avoid_index": av.get("avoid_index", 0),
+                    "avoid_tags": av.get("avoid_tags", []),
+                    "best_time": av.get("best_time", ""),
+                    "tips": av.get("tips", ""),
+                })
+
+        return {
+            "success": True,
+            "count": len(results),
+            "results": results,
+        }
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"读取分析结果失败: {str(e)}")
 
