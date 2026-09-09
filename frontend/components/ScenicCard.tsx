@@ -67,13 +67,15 @@ export default function ScenicCard({ spot, index = 0 }: ScenicCardProps) {
         {/* 渐变遮罩 */}
         <div className="absolute inset-0 bg-gradient-to-t from-dark-900/80 via-transparent to-transparent" />
 
-        {/* 等级标签（5A 金色 / 4A 银色，其余灰色） */}
+        {/* 等级标签（5A 金 / 4A 银 / 世界遗产 青，其余灰） */}
         <div
           className={`absolute top-3 left-3 px-2 py-1 rounded-md text-white text-xs font-bold ${
             spot.level === '5A'
               ? 'bg-gradient-to-r from-amber-500 to-amber-600'
               : spot.level === '4A'
               ? 'bg-gradient-to-r from-slate-400 to-slate-500'
+              : spot.level === '世界遗产'
+              ? 'bg-gradient-to-r from-emerald-500 to-teal-600'
               : 'bg-white/30'
           }`}
         >

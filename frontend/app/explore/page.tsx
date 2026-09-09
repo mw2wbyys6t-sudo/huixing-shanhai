@@ -202,7 +202,7 @@ function ExploreContent() {
               onChange={(e) => handleProvinceChange(e.target.value)}
               className="px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-white text-sm focus:outline-none focus:border-cyan-500/50 cursor-pointer"
             >
-              <option value="">全部省份</option>
+              <option value="">全部地区</option>
               {provinces.map((province) => (
                 <option key={province} value={province}>
                   {province}

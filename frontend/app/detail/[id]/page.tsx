@@ -41,9 +41,10 @@ function JsonLd({ id }: { id: string }) {
     url: `${SITE_URL}${basePath}/detail/${spot.id}`,
     address: {
       '@type': 'PostalAddress',
-      addressRegion: spot.province,
+      // 国内景区省份+城市；国际景区 province 为国家名，直接作 addressCountry
+      addressRegion: spot.id.startsWith('CN-') ? spot.province : undefined,
+      addressCountry: spot.id.startsWith('CN-') ? 'CN' : spot.province,
       addressLocality: spot.city,
-      addressCountry: 'CN',
     },
     geo: {
       '@type': 'GeoCoordinates',
