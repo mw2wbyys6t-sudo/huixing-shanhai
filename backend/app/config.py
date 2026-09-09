@@ -25,8 +25,6 @@ DEEPSEEK_BASE_URL = os.getenv("DEEPSEEK_BASE_URL", "https://api.deepseek.com")
 DEEPSEEK_MODEL = os.getenv("DEEPSEEK_MODEL", "deepseek-chat")
 
 # ==================== 美团开放平台 ====================
-MEITUAN_ACCESS_TOKEN = os.getenv("MEITUAN_ACCESS_TOKEN", "")
-MEITUAN_BASE_URL = os.getenv("MEITUAN_BASE_URL", "https://api.meituan.com")
 
 # ==================== 服务配置 ====================
 PORT = int(os.getenv("PORT", "8000"))
