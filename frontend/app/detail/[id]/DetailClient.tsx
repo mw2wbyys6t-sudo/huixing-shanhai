@@ -31,6 +31,7 @@ import {
   UtensilsCrossed,
   Phone,
   Navigation,
+  Film,
 } from 'lucide-react';
 import Header from '@/components/Header';
 import AvoidIndexBadge from '@/components/AvoidIndexBadge';
@@ -38,6 +39,26 @@ import ScenicCard from '@/components/ScenicCard';
 import SpotPanorama from '@/components/Panorama/SpotPanorama';
 import { scenicAPI, weatherAPI, foodAPI, amapNavUrl, API_BASE_URL, resolveFileUrl, getAuthUser, authFetch, type ScenicSpot, type WeatherInfo, type FoodPlace } from '@/lib/api';
 import { recordVisit, isFavorite, toggleFavorite } from '@/lib/user-prefs';
+import scenicVideos from '@/lib/scenic_videos.json';
+
+/** 景区宣传视频（B站公开数据，采集脚本产出） */
+interface SpotVideo {
+  bvid: string;
+  title: string;
+  author: string;
+  mid: number;
+  url: string;
+  pic: string;
+  duration: number;
+}
+const videoMap = scenicVideos as Record<string, SpotVideo | undefined>;
+
+/** 秒数 → "m:ss" */
+function fmtDuration(sec: number): string {
+  const m = Math.floor(sec / 60);
+  const s = sec % 60;
+  return `${m}:${String(s).padStart(2, '0')}`;
+}
 
 /** 带加载失败兜底的图片组件：加载失败时显示占位图而非裂图 */
 function SafeImage({ src, alt, sizes, className = '' }: { src: string; alt: string; sizes?: string; className?: string }) {
@@ -500,6 +521,61 @@ export default function DetailClient() {
                 基于景区真实照片的环视浏览：按住拖动即可左右环视全景。切换时段查看不同光线氛围。
               </p>
             </div>
+
+            {/* 宣传视频（B站官方播放器嵌入，来源与作者标注） */}
+            {(() => {
+              const video = videoMap[spotId];
+              if (!video?.bvid || !video.author) return null;
+              return (
+                <div className="glass rounded-2xl p-6">
+                  <div className="flex items-center justify-between mb-4 flex-wrap gap-2">
+                    <h2 className="text-xl font-bold text-white flex items-center gap-2">
+                      <Film className="w-5 h-5 text-rose-400" />
+                      宣传视频
+                      <span className="text-xs px-2 py-0.5 rounded-full bg-rose-500/20 text-rose-400 border border-rose-500/30">
+                        哔哩哔哩
+                      </span>
+                    </h2>
+                    <span className="text-xs text-gray-500">时长 {fmtDuration(video.duration)}</span>
+                  </div>
+                  <div className="relative w-full rounded-xl overflow-hidden bg-black/50" style={{ aspectRatio: '16 / 9' }}>
+                    <iframe
+                      src={`https://player.bilibili.com/player.html?bvid=${encodeURIComponent(video.bvid)}&autoplay=0&danmaku=0&high_quality=1`}
+                      title={`${video.title} - ${video.author}`}
+                      loading="lazy"
+                      allowFullScreen
+                      scrolling="no"
+                      frameBorder={0}
+                      allow="encrypted-media; fullscreen; picture-in-picture"
+                      className="absolute inset-0 w-full h-full"
+                    />
+                  </div>
+                  {/* 来源与作者标注（必需） */}
+                  <div className="mt-3 flex flex-wrap items-center gap-x-3 gap-y-1">
+                    <p className="text-xs text-gray-400 min-w-0 truncate">
+                      来源：哔哩哔哩
+                      {' '}@<a
+                        href={`https://space.bilibili.com/${video.mid}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-cyan-400 hover:text-cyan-300"
+                      >
+                        {video.author}
+                      </a>
+                      {' '}· {video.title}
+                    </p>
+                    <a
+                      href={video.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-xs px-2 py-1 rounded-lg bg-rose-500/15 text-rose-400 border border-rose-500/30 hover:bg-rose-500/25 transition-colors shrink-0 ml-auto"
+                    >
+                      去B站看原视频 ↗
+                    </a>
+                  </div>
+                </div>
+              );
+            })()}
 
             {/* 宣传图 vs 实拍对比 */}
             <div className="glass rounded-2xl p-6">
