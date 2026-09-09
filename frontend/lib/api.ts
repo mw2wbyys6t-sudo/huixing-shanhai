@@ -289,6 +289,40 @@ export const provinceAPI = {
   },
 };
 
+// ==================== 美食 API（高德 POI，后端代理） ====================
+export interface FoodPlace {
+  id: string;
+  name: string;
+  address: string;
+  distance: number | null;  // 距景区直线距离（米），城市搜索时为 null
+  tel: string;
+  image: string | null;
+  tags: string[];
+  rating: string | null;
+  cost: number | string | null;  // 人均消费（元）
+  type: string;                  // 末级类目：火锅店/日本料理…
+  location: string;              // "lng,lat"，用于生成高德导航链接
+}
+
+/** 生成高德导航链接（免 Key 的 URI API，新窗口打开） */
+export function amapNavUrl(name: string, location: string): string {
+  // location 与 name 均编码，防止特殊字符破坏 URL 结构（href 本身由 React 转义，无 XSS 风险）
+  return `https://uri.amap.com/marker?position=${encodeURIComponent(location)}&name=${encodeURIComponent(name)}&src=huixing-shanhai&callnative=0`;
+}
+
+export const foodAPI = {
+  /** 景区周边美食（后端按景区坐标 2km 搜索并缓存） */
+  getSpotFood: async (spotId: string): Promise<FoodPlace[]> => {
+    const data = await fetchAPI<{ total: number; items: FoodPlace[] }>(`/spots/${spotId}/food`);
+    return data.items;
+  },
+  /** 城市特色美食（规划页目的地美食推荐） */
+  getCityFood: async (city: string): Promise<FoodPlace[]> => {
+    const data = await fetchAPI<{ city: string; total: number; items: FoodPlace[] }>(`/food/city?city=${encodeURIComponent(city)}`);
+    return data.items;
+  },
+};
+
 // 统计 API
 export const statsAPI = {
   getStats: async (): Promise<{

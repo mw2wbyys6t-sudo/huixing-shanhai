@@ -209,6 +209,31 @@ def main():
         r = client.get("/api/workflow/logs", params={"page_size": 50})
         check("工作流日志接口", r.status_code == 200)
 
+        # ========== 美食（高德 POI） ==========
+        print("\n[美食]")
+        r = client.get("/api/spots/CN-0001/food")
+        if r.status_code == 200:
+            items = r.json().get("items", [])
+            check("景区周边美食", len(items) >= 1 and all(it.get("name") for it in items))
+            check("美食含距离/坐标字段", all("distance" in it and "location" in it for it in items))
+        elif r.status_code in (503, 504):
+            check("景区周边美食", True, f"外部服务暂不可用({r.status_code})，跳过数据断言")
+        else:
+            check("景区周边美食", False, str(r.json().get("detail", ""))[:60])
+
+        r = client.get("/api/spots/CN-9999/food")
+        check("不存在景区美食 404", r.status_code == 404)
+
+        r = client.get("/api/food/city", params={"city": "成都"})
+        if r.status_code == 200:
+            items = r.json().get("items", [])
+            names = [it.get("name", "").split("(")[0] for it in items]
+            check("城市美食搜索", len(items) >= 1 and len(names) == len(set(names)))
+        elif r.status_code in (503, 504):
+            check("城市美食搜索", True, f"外部服务暂不可用({r.status_code})，跳过数据断言")
+        else:
+            check("城市美食搜索", False, str(r.json().get("detail", ""))[:60])
+
         # ========== 首页与文档 ==========
         print("\n[其他]")
         r = client.get("/")

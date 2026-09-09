@@ -60,7 +60,8 @@ function JsonLd({ id }: { id: string }) {
   return (
     <script
       type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }}
+      // 转义 "<" 防止内容中出现 "</script>" 逃逸脚本上下文（Next.js 官方推荐写法）
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(data).replace(/</g, '\\u003c') }}
     />
   );
 }

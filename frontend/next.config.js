@@ -21,6 +21,15 @@ const nextConfig = {
         protocol: 'https',
         hostname: 'upload.wikimedia.org',
       },
+      // 高德 POI 美食实拍图
+      {
+        protocol: 'https',
+        hostname: 'store.is.autonavi.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'aos-comment.amap.com',
+      },
     ],
   },
 };

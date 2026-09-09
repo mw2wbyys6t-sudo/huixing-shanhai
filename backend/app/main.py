@@ -239,6 +239,8 @@ async def root():
             "天气查询": "/api/weather?city=城市名",
             "避雷指数": "/api/spots/{id}/avoid",
             "推荐景区": "/api/spots/recommend?province=省份",
+            "周边美食": "/api/spots/{id}/food",
+            "城市美食": "/api/food/city?city=城市名",
         }
     }
 
@@ -379,6 +381,162 @@ async def get_weather(city: str = Query(..., min_length=1)):
         raise  # 已构造的 HTTPException（如 Key 类型错误 503）直接透传，不被二次包装
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"天气查询失败: {str(e)}")
+
+
+# ==================== 周边美食（高德 POI 餐饮类目） ====================
+# POI 数据变化慢，按坐标缓存 6 小时
+_food_cache: dict = {}
+_FOOD_CACHE_TTL = 6 * 3600
+_FOOD_CACHE_MAX = 256
+
+
+def _amap_poi_items(pois: list) -> List[dict]:
+    """把高德 POI 列表转成精简的美食条目（高德缺失字段可能返回 []/list，统一兜底）"""
+    items = []
+    for poi in pois:
+        photos = poi.get("photos") or []
+        biz = poi.get("biz_ext") or {}
+        tel = poi.get("tel")
+        address = poi.get("address")
+        atag = poi.get("atag") or ""
+        distance = str(poi.get("distance", ""))
+        cost = biz.get("cost")
+        if isinstance(cost, list):  # 高德缺失字段可能返回空列表
+            cost = cost[0] if cost else None
+        cost = None if cost in (None, "") else (int(cost) if str(cost).isdigit() else cost)
+        items.append({
+            "id": poi.get("id", ""),
+            "name": poi.get("name", ""),
+            "address": address if isinstance(address, str) else "",
+            "distance": int(distance) if distance.isdigit() else None,
+            "tel": tel if isinstance(tel, str) else "",
+            "image": photos[0].get("url") if photos and isinstance(photos[0], dict) else None,
+            "tags": [t for t in atag.replace(",", ";").split(";") if t][:3],
+            "rating": biz.get("rating") or None,
+            "cost": cost,
+            "type": (poi.get("type") or "").split(";")[-1],  # 末级类目：火锅店/日本料理…
+            "location": poi.get("location", ""),  # "lng,lat"，供生成导航链接
+        })
+    return items
+
+
+def _cache_food(key: str, data: dict):
+    """写入美食缓存，容量过半时按时间淘汰最旧一半"""
+    if len(_food_cache) >= _FOOD_CACHE_MAX:
+        oldest = sorted(_food_cache.items(), key=lambda kv: kv[1][0])[: _FOOD_CACHE_MAX // 2]
+        for k, _ in oldest:
+            _food_cache.pop(k, None)
+    _food_cache[key] = (time.time(), data)
+
+
+@app.get("/api/spots/{spot_id}/food")
+async def get_spot_food(request: Request, spot_id: str, radius: int = Query(2000, ge=500, le=10000)):
+    """景区周边美食推荐（高德 POI，按景区坐标 2km 内搜索）"""
+    require_rate_limit(request, "food", 30, 60)
+
+    spot = next((s for s in SCENIC_SPOTS if s["id"] == spot_id), None)
+    if not spot:
+        raise HTTPException(status_code=404, detail=f"未找到 ID 为 {spot_id} 的景区")
+    lng, lat = spot.get("longitude"), spot.get("latitude")
+    if not lng or not lat:
+        raise HTTPException(status_code=404, detail="该景区缺少坐标信息")
+
+    cache_key = f"{lng},{lat}:{radius}"
+    cached = _food_cache.get(cache_key)
+    if cached and time.time() - cached[0] < _FOOD_CACHE_TTL:
+        return cached[1]
+
+    try:
+        async with httpx.AsyncClient() as client:
+            resp = await client.get(
+                "https://restapi.amap.com/v3/place/around",
+                params={
+                    "location": f"{lng},{lat}",
+                    "types": "050000",  # 餐饮服务
+                    "radius": radius,
+                    "offset": 10,
+                    "sortrule": "weight",
+                    "key": AMAP_KEY,
+                },
+                timeout=10,
+            )
+            data = resp.json()
+
+        if data.get("status") != "1":
+            if data.get("infocode") == "10009":
+                raise HTTPException(
+                    status_code=503,
+                    detail="美食服务配置有误：AMAP_KEY 需为「Web服务」类型 Key",
+                )
+            raise HTTPException(status_code=500, detail=f"美食查询失败: {data.get('info', '')}")
+
+        result = {"total": len(data.get("pois", [])), "items": _amap_poi_items(data.get("pois", []))}
+        if result["items"]:
+            _cache_food(cache_key, result)
+        return result
+    except httpx.TimeoutException:
+        raise HTTPException(status_code=504, detail="美食 API 请求超时")
+    except HTTPException:
+        raise
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"美食查询失败: {str(e)}")
+
+
+@app.get("/api/food/city")
+async def get_city_food(request: Request, city: str = Query(..., min_length=1, max_length=20)):
+    """城市特色美食搜索（高德 POI，用于规划页的目的地美食推荐）"""
+    require_rate_limit(request, "food-city", 30, 60)
+
+    cache_key = f"city:{city}"
+    cached = _food_cache.get(cache_key)
+    if cached and time.time() - cached[0] < _FOOD_CACHE_TTL:
+        return cached[1]
+
+    try:
+        async with httpx.AsyncClient() as client:
+            resp = await client.get(
+                "https://restapi.amap.com/v3/place/text",
+                params={
+                    "keywords": "美食",
+                    "city": city,
+                    "citylimit": "true",
+                    "types": "050000",
+                    "offset": 10,
+                    "key": AMAP_KEY,
+                },
+                timeout=10,
+            )
+            data = resp.json()
+
+        if data.get("status") != "1":
+            if data.get("infocode") == "10009":
+                raise HTTPException(
+                    status_code=503,
+                    detail="美食服务配置有误：AMAP_KEY 需为「Web服务」类型 Key",
+                )
+            raise HTTPException(status_code=500, detail=f"美食查询失败: {data.get('info', '')}")
+
+        pois = data.get("pois", [])
+        # 高德按相关性排序时同名门店可能重复出现，按名称去重
+        seen: set = set()
+        unique_pois = []
+        for p in pois:
+            name = p.get("name", "").split("(")[0]
+            if name in seen:
+                continue
+            seen.add(name)
+            unique_pois.append(p)
+
+        result = {"city": city, "total": len(unique_pois), "items": _amap_poi_items(unique_pois)}
+        if result["items"]:
+            _cache_food(cache_key, result)
+        return result
+    except httpx.TimeoutException:
+        raise HTTPException(status_code=504, detail="美食 API 请求超时")
+    except HTTPException:
+        raise
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"美食查询失败: {str(e)}")
 
 @app.get("/api/provinces")
 async def get_provinces():

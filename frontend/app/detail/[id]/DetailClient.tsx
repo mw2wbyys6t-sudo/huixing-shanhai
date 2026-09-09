@@ -28,12 +28,15 @@ import {
   Sunset,
   Moon,
   Heart,
+  UtensilsCrossed,
+  Phone,
+  Navigation,
 } from 'lucide-react';
 import Header from '@/components/Header';
 import AvoidIndexBadge from '@/components/AvoidIndexBadge';
 import ScenicCard from '@/components/ScenicCard';
 import SpotPanorama from '@/components/Panorama/SpotPanorama';
-import { scenicAPI, weatherAPI, API_BASE_URL, resolveFileUrl, getAuthUser, authFetch, type ScenicSpot, type WeatherInfo } from '@/lib/api';
+import { scenicAPI, weatherAPI, foodAPI, amapNavUrl, API_BASE_URL, resolveFileUrl, getAuthUser, authFetch, type ScenicSpot, type WeatherInfo, type FoodPlace } from '@/lib/api';
 import { recordVisit, isFavorite, toggleFavorite } from '@/lib/user-prefs';
 
 /** 带加载失败兜底的图片组件：加载失败时显示占位图而非裂图 */
@@ -84,6 +87,9 @@ export default function DetailClient() {
   const [reviewRating, setReviewRating] = useState(5);
   const [reviewContent, setReviewContent] = useState('');
   const [reviewSubmitting, setReviewSubmitting] = useState(false);
+  // 周边美食（高德 POI）
+  const [foods, setFoods] = useState<FoodPlace[]>([]);
+  const [foodState, setFoodState] = useState<'loading' | 'ready' | 'hidden'>('loading');
 
   // 轻量提示（替代原生 alert）
   const showToast = (msg: string) => {
@@ -113,6 +119,19 @@ export default function DetailClient() {
           setRelatedSpots(related.items.filter((s) => s.id !== spotId));
         } catch (e) {
           console.log('相关推荐加载失败');
+        }
+
+        // 加载周边美食（高德 POI；失败时隐藏板块，不打扰主流程）
+        try {
+          const items = await foodAPI.getSpotFood(spotId);
+          if (items.length > 0) {
+            setFoods(items);
+            setFoodState('ready');
+          } else {
+            setFoodState('hidden');
+          }
+        } catch (e) {
+          setFoodState('hidden');
         }
       } catch (error) {
         console.error('加载景区详情失败:', error);
@@ -548,6 +567,102 @@ export default function DetailClient() {
                 通过对比官方宣传图和游客真实实拍，帮助你判断景区真实面貌，避免"照骗"陷阱。
               </p>
             </div>
+
+            {/* 周边美食（高德 POI 实时数据） */}
+            {foodState === 'ready' && (
+              <div className="glass rounded-2xl p-6">
+                <div className="flex items-center justify-between mb-4">
+                  <h2 className="text-xl font-bold text-white flex items-center gap-2">
+                    <UtensilsCrossed className="w-5 h-5 text-orange-400" />
+                    周边美食
+                    <span className="text-xs px-2 py-0.5 rounded-full bg-orange-500/20 text-orange-400 border border-orange-500/30">
+                      高德地图
+                    </span>
+                  </h2>
+                  <span className="text-xs text-gray-500">{spot.name} 2km 内</span>
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  {foods.map((food) => (
+                    <div
+                      key={food.id}
+                      className="glass glass-hover rounded-xl p-3 flex gap-3 group"
+                    >
+                      <div className="relative w-24 h-24 rounded-lg overflow-hidden shrink-0 bg-white/5">
+                        {food.image ? (
+                          <SafeImage
+                            src={food.image}
+                            alt={food.name}
+                            className="object-cover group-hover:scale-105 transition-transform duration-300"
+                          />
+                        ) : (
+                          <div className="w-full h-full flex items-center justify-center">
+                            <UtensilsCrossed className="w-8 h-8 text-gray-600" />
+                          </div>
+                        )}
+                      </div>
+                      <div className="flex-1 min-w-0 flex flex-col">
+                        <div className="flex items-center gap-2">
+                          <h3 className="font-bold text-white text-sm truncate">{food.name}</h3>
+                          {food.type && (
+                            <span className="text-[10px] px-1.5 py-0.5 rounded bg-white/10 text-gray-300 shrink-0">
+                              {food.type}
+                            </span>
+                          )}
+                        </div>
+                        <div className="flex items-center gap-3 mt-1 text-xs text-gray-400">
+                          {food.rating && (
+                            <span className="flex items-center gap-0.5 text-amber-400">
+                              <Star className="w-3 h-3 fill-amber-400" />
+                              {food.rating}
+                            </span>
+                          )}
+                          {food.cost != null && <span>人均 ¥{String(food.cost).replace(/\.00$/, '')}</span>}
+                          {food.distance != null && (
+                            <span className="text-cyan-400">
+                              {food.distance < 1000 ? `${food.distance}m` : `${(food.distance / 1000).toFixed(1)}km`}
+                            </span>
+                          )}
+                        </div>
+                        {food.tags.length > 0 && (
+                          <div className="flex flex-wrap gap-1 mt-1.5">
+                            {food.tags.slice(0, 3).map((tag) => (
+                              <span key={tag} className="text-[10px] px-1.5 py-0.5 rounded bg-white/5 text-gray-400 border border-white/5">
+                                {tag}
+                              </span>
+                            ))}
+                          </div>
+                        )}
+                        <div className="flex items-center gap-2 mt-auto pt-2">
+                          {food.tel && (
+                            <a
+                              href={`tel:${food.tel}`}
+                              className="flex items-center gap-1 text-xs text-gray-400 hover:text-cyan-400 transition-colors"
+                            >
+                              <Phone className="w-3 h-3" />
+                              {food.tel}
+                            </a>
+                          )}
+                          {food.location && (
+                            <a
+                              href={amapNavUrl(food.name, food.location)}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="ml-auto flex items-center gap-1 text-xs px-2 py-1 rounded-lg bg-cyan-500/15 text-cyan-400 border border-cyan-500/30 hover:bg-cyan-500/25 transition-colors"
+                            >
+                              <Navigation className="w-3 h-3" />
+                              导航前往
+                            </a>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+                <p className="text-xs text-gray-500 mt-4">
+                  数据来源：高德地图 POI（餐饮服务类目），按距离与热度综合排序。
+                </p>
+              </div>
+            )}
 
             {/* AI 智能避雷分析 */}
             <div className="glass rounded-2xl p-6">

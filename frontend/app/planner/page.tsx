@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, ReactNode } from 'react';
+import { useState, useEffect, ReactNode } from 'react';
 import {
   Sparkles,
   MapPin,
@@ -17,10 +17,14 @@ import {
   Share2,
   CheckCircle,
   XCircle,
+  UtensilsCrossed,
+  Phone,
+  Navigation,
+  Star,
 } from 'lucide-react';
 import Header from '@/components/Header';
 import SpotLinkText from '@/components/SpotLinkText';
-import { API_BASE_URL } from '@/lib/api';
+import { API_BASE_URL, foodAPI, amapNavUrl, type FoodPlace } from '@/lib/api';
 
 interface StepStatus {
   name: string;
@@ -121,6 +125,29 @@ export default function PlannerPage() {
   const [finalOutput, setFinalOutput] = useState('');
   const [generateError, setGenerateError] = useState('');
   const [copied, setCopied] = useState(false);
+  // 目的地美食推荐（行程生成后加载）
+  const [cityFoods, setCityFoods] = useState<FoodPlace[]>([]);
+  const [cityFoodState, setCityFoodState] = useState<'hidden' | 'ready'>('hidden');
+
+  // 行程生成成功后加载目的地美食（失败静默隐藏，不影响主流程）
+  useEffect(() => {
+    if (!finalOutput || isGenerating) return;
+    let alive = true;
+    foodAPI.getCityFood(formData.destination)
+      .then((items) => {
+        if (!alive) return;
+        if (items.length > 0) {
+          setCityFoods(items);
+          setCityFoodState('ready');
+        } else {
+          setCityFoodState('hidden');
+        }
+      })
+      .catch(() => {
+        if (alive) setCityFoodState('hidden');
+      });
+    return () => { alive = false; };
+  }, [finalOutput, isGenerating, formData.destination]);
   const [workflowStatus, setWorkflowStatus] = useState<{
     currentStep: string;
     steps: StepStatus[];
@@ -742,6 +769,70 @@ export default function PlannerPage() {
               {/* AI 输出正文 */}
               <div className="space-y-3 max-h-[720px] overflow-y-auto pr-2">{renderMarkdown(finalOutput)}</div>
             </div>
+
+            {/* 目的地美食推荐（高德 POI） */}
+            {cityFoodState === 'ready' && (
+              <div className="glass rounded-2xl p-8">
+                <div className="flex items-center justify-between mb-6">
+                  <h2 className="text-xl font-bold text-white flex items-center gap-2">
+                    <UtensilsCrossed className="w-5 h-5 text-orange-400" />
+                    {formData.destination}美食推荐
+                    <span className="text-xs px-2 py-0.5 rounded-full bg-orange-500/20 text-orange-400 border border-orange-500/30">
+                      高德地图
+                    </span>
+                  </h2>
+                  <span className="text-xs text-gray-500">为行程加分的一口</span>
+                </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  {cityFoods.map((food) => (
+                    <div key={food.id} className="glass glass-hover rounded-xl p-4">
+                      <div className="flex items-center gap-2">
+                        <h3 className="font-bold text-white text-sm truncate">{food.name}</h3>
+                        {food.type && (
+                          <span className="text-[10px] px-1.5 py-0.5 rounded bg-white/10 text-gray-300 shrink-0">
+                            {food.type}
+                          </span>
+                        )}
+                      </div>
+                      <div className="flex items-center gap-3 mt-1.5 text-xs text-gray-400">
+                        {food.rating && (
+                          <span className="flex items-center gap-0.5 text-amber-400">
+                            <Star className="w-3 h-3 fill-amber-400" />
+                            {food.rating}
+                          </span>
+                        )}
+                        {food.cost != null && <span>人均 ¥{String(food.cost).replace(/\.00$/, '')}</span>}
+                      </div>
+                      {food.address && (
+                        <p className="text-xs text-gray-500 mt-1.5 truncate">{food.address}</p>
+                      )}
+                      <div className="flex items-center gap-2 mt-2.5">
+                        {food.tel && (
+                          <a
+                            href={`tel:${food.tel}`}
+                            className="flex items-center gap-1 text-xs text-gray-400 hover:text-cyan-400 transition-colors"
+                          >
+                            <Phone className="w-3 h-3" />
+                            {food.tel}
+                          </a>
+                        )}
+                        {food.location && (
+                          <a
+                            href={amapNavUrl(food.name, food.location)}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="ml-auto flex items-center gap-1 text-xs px-2 py-1 rounded-lg bg-cyan-500/15 text-cyan-400 border border-cyan-500/30 hover:bg-cyan-500/25 transition-colors"
+                          >
+                            <Navigation className="w-3 h-3" />
+                            导航前往
+                          </a>
+                        )}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
 
             {/* 返回修改 */}
             <div className="text-center">

@@ -133,6 +133,20 @@ def main():
         else:
             check("高德天气（经后端）", False, r.json().get("detail", "")[:60])
 
+        r = client.get("/api/spots/CN-0001/food")
+        if r.status_code == 200 and r.json().get("items"):
+            first = r.json()["items"][0]
+            check("高德周边美食（经后端）", True, f"{first['name']} · {first.get('distance')}m")
+        else:
+            check("高德周边美食（经后端）", False, r.json().get("detail", "")[:60])
+
+        r = client.get("/api/food/city", params={"city": "成都"})
+        if r.status_code == 200 and r.json().get("items"):
+            first = r.json()["items"][0]
+            check("高德城市美食（经后端）", True, first["name"])
+        else:
+            check("高德城市美食（经后端）", False, r.json().get("detail", "")[:60])
+
         print("\n[外部依赖 · DeepSeek]")
         if full:
             try:
