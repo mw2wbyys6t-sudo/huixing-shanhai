@@ -25,7 +25,7 @@ from pydantic import BaseModel, Field
 from app import config
 from app.security import rate_limiter, create_signed_token, verify_signed_token
 from app.services.deepseek_client import deepseek_client
-# 美团开放平台评价接口需企业资质且无公开 API，已改为站内真实评价统计（meituan_client.py 保留备查）
+# 美团开放平台评价接口需企业资质且无公开 API，已改为站内真实评价统计（meituan_client.py 已移除）
 from app.services.langgraph_workflow import run_langgraph_workflow
 from app.services.auth_service import (
     get_user_by_account,
