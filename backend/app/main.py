@@ -356,7 +356,10 @@ async def get_weather(city: str = Query(..., min_length=1)):
                     status_code=503,
                     detail="天气服务不可用：AMAP_KEY 未配置或无效——请到 Render 服务的 Environment 页检查 AMAP_KEY",
                 )
-            raise HTTPException(status_code=404, detail=f"未找到城市 {city}")
+            raise HTTPException(
+                status_code=404,
+                detail=f"未找到城市 {city}（高德返回: {geo_data.get('info', '?')} / {geo_data.get('infocode', '?')}）",
+            )
 
             adcode = geo_data["geocodes"][0]["adcode"]
 
