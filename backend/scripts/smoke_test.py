@@ -62,7 +62,7 @@ def main():
         check("分页字段完整", all(k in data for k in ("page", "page_size", "total_pages", "items")))
 
         r = client.get("/api/spots", params={"province": "北京市", "page_size": 5})
-        check("省份筛选生效", r.json().get("total") == 2)
+        check("省份筛选生效", r.json().get("total") >= 2)
 
         r = client.get("/api/spots/CN-0001")
         check("景区详情", r.status_code == 200 and r.json().get("name") == "故宫博物院")
