@@ -716,14 +716,15 @@ async def get_news(request: Request, db: Session = Depends(get_db)):
 
     items = []
 
-    # 1) 热门目的地实时天气（并发查询，高德实时数据）
-    async def _city_weather(city: str):
+    # 1) 热门目的地实时天气（串行 + 间隔，规避高德免费档 3 QPS 限制；结果缓存 10 分钟）
+    weather_results = []
+    for c in _NEWS_CITIES:
         try:
-            return city, await get_weather(city=city)
+            w = await get_weather(city=c)
         except Exception:
-            return city, None
-
-    weather_results = await asyncio.gather(*(_city_weather(c) for c in _NEWS_CITIES))
+            w = None
+        weather_results.append((c, w))
+        await asyncio.sleep(0.35)
     for city, w in weather_results:
         if w and w.get("temperature"):
             items.append({
