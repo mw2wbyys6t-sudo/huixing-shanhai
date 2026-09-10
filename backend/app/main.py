@@ -358,7 +358,7 @@ async def get_weather(city: str = Query(..., min_length=1)):
                 )
             raise HTTPException(
                 status_code=404,
-                detail=f"未找到城市 {city}（高德返回: {geo_data.get('info', '?')} / {geo_data.get('infocode', '?')}）",
+                detail=f"未找到城市 {city}（高德响应: {json.dumps(geo_data, ensure_ascii=False)[:300]}）",
             )
 
             adcode = geo_data["geocodes"][0]["adcode"]
