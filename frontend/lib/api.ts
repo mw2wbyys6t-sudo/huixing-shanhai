@@ -289,6 +289,52 @@ export const provinceAPI = {
   },
 };
 
+
+// ==================== 游记/攻略社区 API ====================
+export interface NoteItem {
+  id: number;
+  title: string;
+  type: string; // 游记 | 攻略
+  spot_id: string | null;
+  spot_name: string | null;
+  user_name: string;
+  views: number;
+  likes: number;
+  created_at: string | null;
+  excerpt: string;
+}
+
+export interface NoteCommentItem {
+  id: number;
+  user_name: string;
+  content: string;
+  created_at: string | null;
+}
+
+export interface NoteDetail extends Omit<NoteItem, 'excerpt'> {
+  content: string;
+  comments: NoteCommentItem[];
+}
+
+export const notesAPI = {
+  list: async (params: { page?: number; page_size?: number; type?: string; spot_id?: string; sort?: string }): Promise<{ total: number; items: NoteItem[] }> => {
+    const q = new URLSearchParams();
+    if (params.page) q.set('page', String(params.page));
+    if (params.page_size) q.set('page_size', String(params.page_size));
+    if (params.type) q.set('type', params.type);
+    if (params.spot_id) q.set('spot_id', params.spot_id);
+    if (params.sort) q.set('sort', params.sort);
+    return fetchAPI<{ total: number; items: NoteItem[] }>('/notes?' + q.toString());
+  },
+  get: async (id: number): Promise<NoteDetail> => fetchAPI<NoteDetail>('/notes/' + id),
+  submit: async (payload: { title: string; content: string; type: string; spot_id?: string; spot_name?: string; user_name: string }): Promise<{ success: boolean; note_id: number }> =>
+    postJSON<{ success: boolean; note_id: number }>('/api/notes/submit', payload),
+  like: async (id: number): Promise<{ success: boolean; likes: number }> =>
+    postJSON<{ success: boolean; likes: number }>('/api/notes/' + id + '/like'),
+  comment: async (id: number, payload: { content: string; user_name: string }): Promise<{ success: boolean }> =>
+    postJSON<{ success: boolean }>('/api/notes/' + id + '/comments', payload),
+};
+
 // ==================== 美食 API（高德 POI，后端代理） ====================
 export interface FoodPlace {
   id: string;
@@ -369,6 +415,21 @@ async function postAuth<T>(path: string, body?: unknown, params?: Record<string,
   const response = await fetch(`${API_BASE_URL}${path}${query}`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
+    body: body !== undefined ? JSON.stringify(body) : undefined,
+  });
+  const data = await response.json().catch(() => ({}));
+  if (!response.ok) {
+    throw new Error((data as { detail?: string }).detail || '请求失败，请稍后重试');
+  }
+  return data as T;
+}
+
+/** 带登录态的 JSON POST（社区等需要关联用户的接口） */
+async function postJSON<T>(path: string, body?: unknown): Promise<T> {
+  const token = getAuthToken();
+  const response = await fetch(`${API_BASE_URL}${path}`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', ...(token ? { Authorization: `Bearer ${token}` } : {}) },
     body: body !== undefined ? JSON.stringify(body) : undefined,
   });
   const data = await response.json().catch(() => ({}));

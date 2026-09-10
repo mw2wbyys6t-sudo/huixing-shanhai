@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { Mountain, Compass, Map, Users, Info, Menu, X, LogIn, Globe, LogOut, User } from 'lucide-react';
+import { Mountain, Compass, Map, Users, Info, Menu, X, LogIn, Globe, LogOut, User , PenLine} from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
 import ClayIcon from './ClayIcon';
@@ -13,6 +13,7 @@ const navItems = [
   { href: '/explore', label: '探索发现', icon: Compass },
   { href: '/avoid', label: '避雷指南', icon: Map },
   { href: '/planner', label: '智能规划', icon: Users },
+  { href: '/community', label: '游记社区', icon: PenLine },
   { href: '/about', label: '关于我们', icon: Info },
 ];
 

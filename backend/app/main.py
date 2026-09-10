@@ -38,7 +38,7 @@ from app.services.auth_service import (
     is_hashed,
 )
 from app.database import get_db, init_db, SessionLocal
-from app.models import Review, UGCPhoto, WorkflowLog, UserPrefs
+from app.models import Review, UGCPhoto, WorkflowLog, UserPrefs, TravelNote, NoteComment
 from fastapi import Depends, UploadFile, File, Form
 from fastapi.responses import StreamingResponse
 from sqlalchemy.orm import Session
@@ -395,7 +395,149 @@ async def get_weather(city: str = Query(..., min_length=1)):
         raise HTTPException(status_code=500, detail=f"天气查询失败: {str(e)}")
 
 
+# ==================== 游记/攻略社区 ====================
+NOTE_TYPES = {"游记", "攻略"}
+
+
+class NoteSubmit(BaseModel):
+    title: str = Field(min_length=2, max_length=100)
+    content: str = Field(min_length=10, max_length=20000)
+    type: str = Field(default="游记")
+    spot_id: Optional[str] = Field(default=None, max_length=50)
+    spot_name: Optional[str] = Field(default=None, max_length=100)
+    user_name: str = Field(min_length=1, max_length=50)
+
+
+class NoteCommentSubmit(BaseModel):
+    content: str = Field(min_length=1, max_length=500)
+    user_name: str = Field(min_length=1, max_length=50)
+
+
+@app.post("/api/notes/submit")
+async def submit_note(request: Request, payload: NoteSubmit, db: Session = Depends(get_db)):
+    """发布游记/攻略（登录用户自动记录 ID）"""
+    require_rate_limit(request, "note-submit", 10, 3600)
+    if payload.type not in NOTE_TYPES:
+        raise HTTPException(status_code=422, detail="type 必须为 游记 或 攻略")
+    user = get_optional_user(request, db)
+    note = TravelNote(
+        title=payload.title.strip(),
+        content=payload.content.strip(),
+        type=payload.type,
+        spot_id=(payload.spot_id or None),
+        spot_name=(payload.spot_name or None),
+        user_id=(int(user["id"]) if user and str(user.get("id", "")).isdigit() else None),
+        user_name=payload.user_name.strip(),
+    )
+    db.add(note)
+    db.commit()
+    db.refresh(note)
+    return {"success": True, "note_id": note.id, "message": "发布成功"}
+
+
+@app.get("/api/notes")
+async def list_notes(
+    request: Request,
+    page: int = Query(1, ge=1),
+    page_size: int = Query(10, ge=1, le=50),
+    type: Optional[str] = None,
+    spot_id: Optional[str] = None,
+    sort: str = Query("time"),  # time | likes | views
+    db: Session = Depends(get_db),
+):
+    """游记/攻略列表"""
+    query = db.query(TravelNote)
+    if type in NOTE_TYPES:
+        query = query.filter(TravelNote.type == type)
+    if spot_id:
+        query = query.filter(TravelNote.spot_id == spot_id)
+    if sort == "likes":
+        query = query.order_by(TravelNote.likes.desc(), TravelNote.id.desc())
+    elif sort == "views":
+        query = query.order_by(TravelNote.views.desc(), TravelNote.id.desc())
+    else:
+        query = query.order_by(TravelNote.id.desc())
+    total = query.count()
+    items = query.offset((page - 1) * page_size).limit(page_size).all()
+    return {
+        "total": total,
+        "page": page,
+        "page_size": page_size,
+        "items": [
+            {
+                "id": n.id, "title": n.title, "type": n.type,
+                "spot_id": n.spot_id, "spot_name": n.spot_name,
+                "user_name": n.user_name, "views": n.views, "likes": n.likes,
+                "created_at": n.created_at.isoformat() if n.created_at else None,
+                "excerpt": (n.content or "")[:80],
+            }
+            for n in items
+        ],
+    }
+
+
+@app.get("/api/notes/{note_id}")
+async def get_note(note_id: int, db: Session = Depends(get_db)):
+    """游记详情（阅读量 +1）"""
+    note = db.query(TravelNote).filter(TravelNote.id == note_id).first()
+    if not note:
+        raise HTTPException(status_code=404, detail="游记不存在")
+    note.views = (note.views or 0) + 1
+    db.commit()
+    comments = (
+        db.query(NoteComment)
+        .filter(NoteComment.note_id == note_id)
+        .order_by(NoteComment.id.asc())
+        .all()
+    )
+    return {
+        "id": note.id, "title": note.title, "content": note.content, "type": note.type,
+        "spot_id": note.spot_id, "spot_name": note.spot_name,
+        "user_name": note.user_name, "views": note.views, "likes": note.likes,
+        "created_at": note.created_at.isoformat() if note.created_at else None,
+        "comments": [
+            {
+                "id": c.id, "user_name": c.user_name,
+                "content": c.content,
+                "created_at": c.created_at.isoformat() if c.created_at else None,
+            }
+            for c in comments
+        ],
+    }
+
+
+@app.post("/api/notes/{note_id}/like")
+async def like_note(note_id: int, db: Session = Depends(get_db)):
+    """点赞（+1，无去重——轻量社区语义）"""
+    note = db.query(TravelNote).filter(TravelNote.id == note_id).first()
+    if not note:
+        raise HTTPException(status_code=404, detail="游记不存在")
+    note.likes = (note.likes or 0) + 1
+    db.commit()
+    return {"success": True, "likes": note.likes}
+
+
+@app.post("/api/notes/{note_id}/comments")
+async def comment_note(request: Request, note_id: int, payload: NoteCommentSubmit, db: Session = Depends(get_db)):
+    """发表评论"""
+    require_rate_limit(request, "note-comment", 20, 3600)
+    note = db.query(TravelNote).filter(TravelNote.id == note_id).first()
+    if not note:
+        raise HTTPException(status_code=404, detail="游记不存在")
+    user = get_optional_user(request, db)
+    c = NoteComment(
+        note_id=note_id,
+        user_id=(int(user["id"]) if user and str(user.get("id", "")).isdigit() else None),
+        user_name=payload.user_name.strip(),
+        content=payload.content.strip(),
+    )
+    db.add(c)
+    db.commit()
+    return {"success": True, "comment_id": c.id, "message": "评论成功"}
+
+
 # ==================== 周边美食（高德 POI 餐饮类目） ====================
+
 # POI 数据变化慢，按坐标缓存 6 小时
 _food_cache: dict = {}
 _FOOD_CACHE_TTL = 6 * 3600

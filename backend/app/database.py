@@ -54,6 +54,7 @@ def init_db():
     from app.models.ugc_photo import UGCPhoto
     from app.models.workflow_log import WorkflowLog
     from app.models.user_prefs import UserPrefs
+    from app.models.travel_note import TravelNote, NoteComment
 
     Base.metadata.create_all(bind=engine)
     print("数据库表初始化完成")
