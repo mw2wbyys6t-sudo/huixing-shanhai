@@ -17,6 +17,7 @@ from typing import List, Optional
 import httpx
 from fastapi import FastAPI, HTTPException, Query, Request
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.middleware.gzip import GZipMiddleware
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, Field
 
@@ -216,6 +217,9 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+# JSON 响应压缩（92 景区列表等大 payload 体积减半）
+app.add_middleware(GZipMiddleware, minimum_size=1024)
 
 
 @app.on_event("startup")

@@ -1,0 +1,17 @@
+# 保活：定时请求 Render 免费实例，避免评审前遭遇 50 秒冷启动
+# 公开仓库的 Actions 时长免费；GitHub 计划任务可能有数分钟延迟，足够覆盖 15 分钟休眠窗口
+name: Keep Render API warm
+
+on:
+  schedule:
+    - cron: "*/10 * * * *"
+  workflow_dispatch:
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping backend
+        run: |
+          code=$(curl -s -o /dev/null -w "%{http_code}" --max-time 120 https://huixing-shanhai.onrender.com/api/stats || true)
+          echo "ping /api/stats -> HTTP $code"

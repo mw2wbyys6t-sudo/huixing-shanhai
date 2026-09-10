@@ -5,7 +5,7 @@
  * 用法：node scripts/gen-sitemap.mjs
  * 环境变量：NEXT_PUBLIC_SITE_URL（站点域名）、NEXT_PUBLIC_BASE_PATH（子路径）
  */
-import { readFileSync, writeFileSync } from 'node:fs';
+import { existsSync, readFileSync, writeFileSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -37,6 +37,12 @@ Disallow: ${basePath}/monitor
 Sitemap: ${base}/sitemap.xml
 `;
 
-writeFileSync(join(root, 'public', 'sitemap.xml'), sitemap);
-writeFileSync(join(root, 'public', 'robots.txt'), robots);
-console.log(`✓ 已生成 sitemap.xml（${urls.length} 个URL）与 robots.txt`);
+// 写入 public/（源码一致性）；静态导出后还需写入 out/ 覆盖 next build 提前复制的旧版本
+const targets = [join(root, 'public')];
+const outDir = join(root, 'out');
+if (existsSync(outDir)) targets.push(outDir);
+for (const dir of targets) {
+  writeFileSync(join(dir, 'sitemap.xml'), sitemap);
+  writeFileSync(join(dir, 'robots.txt'), robots);
+}
+console.log(`✓ 已生成 sitemap.xml（${urls.length} 个URL）与 robots.txt -> ${targets.map((t) => t.split(/[\/]/).pop()).join(' + ')}`);
