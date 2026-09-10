@@ -1,6 +1,6 @@
 User-Agent: *
 Allow: /
 # robots 协议要求 Disallow 为路径（不能是完整 URL）
-Disallow: /app/app_17dfqqgrsds/monitor
+Disallow: /huixing-shanhai/monitor
 
-Sitemap: http://localhost:3000/app/app_17dfqqgrsds/sitemap.xml
+Sitemap: https://mw2wbyys6t-sudo.github.io/huixing-shanhai/sitemap.xml

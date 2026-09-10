@@ -12,7 +12,9 @@ import { fileURLToPath } from 'node:url';
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 // 与 next.config.js 的默认值保持一致（子路径部署时两个值必须相同）
 const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? '/app/app_17dfqqgrsds';
-const base = (process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000') + basePath;
+// SITE_URL 已包含子路径时不再重复追加 basePath
+const siteUrl = (process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000').replace(/\/$/, '');
+const base = siteUrl.endsWith(basePath) || !basePath ? siteUrl : siteUrl + basePath;
 const today = new Date().toISOString().slice(0, 10);
 
 const scenic = JSON.parse(readFileSync(join(root, 'lib', 'scenic_data.json'), 'utf-8'));
