@@ -234,6 +234,32 @@ def main():
         else:
             check("城市美食搜索", False, str(r.json().get("detail", ""))[:60])
 
+        # ========== 游记社区 ==========
+        print("\n[游记社区]")
+        r = client.post("/api/notes/submit", json={
+            "title": "冒烟测试游记", "content": "冒烟测试的完整游记正文内容，用于验证社区发布链路。",
+            "type": "游记", "spot_id": "CN-0001", "spot_name": "故宫博物院", "user_name": "冒烟测试员",
+        })
+        check("发布游记", r.status_code == 200 and r.json().get("success"))
+        note_id = r.json().get("note_id")
+
+        r = client.get("/api/notes", params={"type": "游记", "sort": "time"})
+        check("游记列表", r.status_code == 200 and r.json().get("total") >= 1)
+
+        r = client.get(f"/api/notes/{note_id}")
+        check("游记详情与阅读量", r.status_code == 200 and r.json().get("views") >= 1)
+
+        r = client.post(f"/api/notes/{note_id}/like")
+        check("游记点赞", r.status_code == 200 and r.json().get("likes") >= 1)
+
+        r = client.post(f"/api/notes/{note_id}/comments", json={
+            "content": "冒烟测试评论", "user_name": "冒烟测试员"})
+        r2 = client.get(f"/api/notes/{note_id}")
+        check("游记评论", r.status_code == 200 and len(r2.json().get("comments", [])) >= 1)
+
+        r = client.get("/api/news")
+        check("旅游资讯聚合", r.status_code == 200 and r.json().get("count", 0) >= 4)
+
         # ========== 首页与文档 ==========
         print("\n[其他]")
         r = client.get("/")

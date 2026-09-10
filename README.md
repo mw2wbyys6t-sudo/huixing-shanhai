@@ -14,9 +14,11 @@
 ### 前端（Next.js 14 + TypeScript + Tailwind CSS）
 - **首页**：Hero 轮播、站内搜索、精选推荐
 - **探索发现**：搜索（300ms 防抖 + 竞态防护）、省份/类型筛选、分页
-- **景区详情**：图片轮播、景区实景环视（拖拽 + 时段光影）、实时天气、AI 避雷分析（基于真实评价数据）、游客评价、UGC 实拍墙（上传/点赞）、同省份推荐
+- **景区详情**：图片轮播、景区实景环视（拖拽 + 时段光影）、实时天气、AI 避雷分析（基于真实评价数据）、游客评价、UGC 实拍墙（上传/点赞）、周边美食（高德 POI）、宣传视频（B站官方播放器+来源标注）、同省份推荐
+- **游记社区**：游记/攻略发布（关联景区联想）、列表筛选排序、详情阅读与点赞、评论互动
+- **旅游资讯**：实时聚合热门目的地天气（高德）、最新社区内容、最新评价与避雷提醒
 - **避雷指南**：风险分级统计、避雷排行榜、避雷知识科普
-- **智能规划**：LangGraph 多 Agent 工作流可视化（SSE 实时进度）、AI 行程输出渲染、导出/分享
+- **智能规划**：LangGraph 多 Agent 工作流可视化（SSE 实时进度）、跨城交通方案、AI 行程输出渲染、导出/分享
 - **AI 助手**：DeepSeek 驱动对话、多会话管理（本地持久化）、后端在线状态检测
 - **3D 地球**：React Three Fiber 地球 + 景区标记（按避雷指数着色）+ 飞行路线
 - **账号体系**：注册/登录（密码 + 验证码）/忘记密码，全站登录态展示与登出
@@ -89,6 +91,14 @@ GET  /api/spots/{id}                 景区详情
 GET  /api/spots/search?q=            搜索
 GET  /api/spots/{id}/avoid           避雷指数
 GET  /api/spots/recommend            推荐
+GET  /api/spots/{id}/food            周边美食（高德 POI）
+GET  /api/food/city?city=            城市美食
+GET  /api/news                       实时聚合旅游资讯
+GET  /api/notes                      游记列表
+POST /api/notes/submit               发布游记/攻略
+GET  /api/notes/{id}                 游记详情
+POST /api/notes/{id}/like            游记点赞
+POST /api/notes/{id}/comments        游记评论
 GET  /api/weather?city=              天气（高德）
 GET  /api/stats                      统计信息
 POST /api/auth/send-code             发送验证码
@@ -114,7 +124,8 @@ GET  /api/reviews/list/{spot_id}     评价列表
 
 ## 数据说明
 
-- `data/scenic_spots.json`：20 个 5A 景区权威数据（坐标/评分/避雷指数），**为避免 LLM 输出趋同，avoid_index 以本文件为唯一权威**
+- `data/scenic_spots.json`：350 个精品景区权威数据（全国 5A 覆盖 + 国际知名景区；坐标/评分/避雷指数），**为避免 LLM 输出趋同，avoid_index 以本文件为唯一权威**
+- `data/scenic_videos.json`：92 条景区宣传视频元数据（B站官方播放器嵌入，标注来源与作者）
 - `data/avoid_analysis.json`：DeepSeek 批量生成的避雷分析（关键词/标签/建议），数值字段与权威值对齐
 - `backend/scripts/batch_avoid_analysis.py`：重跑批量分析（自动对齐权威值，不会反向覆盖）
 - `frontend/lib/scenic_data.json`：前端本地副本（后端不可用时自动回退，保证纯静态部署可浏览）
