@@ -245,6 +245,7 @@ async def root():
             "推荐景区": "/api/spots/recommend?province=省份",
             "周边美食": "/api/spots/{id}/food",
             "城市美食": "/api/food/city?city=城市名",
+            "旅游资讯": "/api/news",
         }
     }
 
@@ -696,6 +697,93 @@ async def get_city_food(request: Request, city: str = Query(..., min_length=1, m
         raise
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"美食查询失败: {str(e)}")
+
+
+# ==================== 实时聚合旅游资讯 ====================
+_NEWS_CITIES = ["三亚", "北京", "西安", "成都", "杭州", "哈尔滨", "厦门", "丽江"]
+_news_cache: dict = {}
+_NEWS_TTL = 600  # 聚合结果缓存 10 分钟
+
+
+@app.get("/api/news")
+async def get_news(request: Request, db: Session = Depends(get_db)):
+    """实时聚合旅游资讯：热门目的地天气（高德实时）+ 最新社区内容 + 最新评价 + 高风险避雷提醒"""
+    require_rate_limit(request, "news", 60, 60)
+    now = time.time()
+    cached = _news_cache.get("feed")
+    if cached and now - cached[0] < _NEWS_TTL:
+        return cached[1]
+
+    items = []
+
+    # 1) 热门目的地实时天气（并发查询，高德实时数据）
+    async def _city_weather(city: str):
+        try:
+            return city, await get_weather(city=city)
+        except Exception:
+            return city, None
+
+    weather_results = await asyncio.gather(*(_city_weather(c) for c in _NEWS_CITIES))
+    for city, w in weather_results:
+        if w and w.get("temperature"):
+            items.append({
+                "category": "天气动态",
+                "title": f"{w.get('city', city)} · {w.get('weather')} {w.get('temperature')}℃",
+                "summary": f"风力{w.get('wind', '-')} · 湿度{w.get('humidity', '-')}%（高德实时数据）",
+                "source": "高德地图",
+                "time": w.get("report_time", ""),
+                "link": "/explore",
+            })
+
+    # 2) 最新游记/攻略
+    notes = db.query(TravelNote).order_by(TravelNote.id.desc()).limit(3).all()
+    for n in notes:
+        items.append({
+            "category": "社区热文",
+            "title": f"【{n.type}】{n.title}",
+            "summary": (n.content or "")[:70] + "…",
+            "source": n.user_name,
+            "time": n.created_at.isoformat() if n.created_at else "",
+            "link": f"/community/note?id={n.id}",
+        })
+
+    # 3) 最新评价
+    reviews = db.query(Review).order_by(Review.id.desc()).limit(3).all()
+    for r in reviews:
+        items.append({
+            "category": "最新评价",
+            "title": f"{r.spot_name} · {r.rating} 分",
+            "summary": (r.content or "")[:70],
+            "source": r.user_name,
+            "time": r.created_at.isoformat() if r.created_at else "",
+            "link": f"/detail/{r.spot_id}",
+        })
+
+    # 4) 高风险避雷提醒（指数 ≥ 3.0 取前 3）
+    risky = sorted(
+        (s for s in SCENIC_SPOTS if s.get("avoid", {}).get("avoid_index", 0) >= 3.0),
+        key=lambda x: x["avoid"]["avoid_index"], reverse=True,
+    )[:3]
+    for s in risky:
+        av = s["avoid"]
+        items.append({
+            "category": "避雷提醒",
+            "title": f"{s['name']} 避雷指数 {av.get('avoid_index')}",
+            "summary": " / ".join(av.get("avoid_tags", [])[:3]) or av.get("tips", "")[:60],
+            "source": "平台避雷指数",
+            "time": "",
+            "link": f"/detail/{s['id']}",
+        })
+
+    feed = {
+        "success": True,
+        "count": len(items),
+        "updated_at": datetime.now().isoformat(timespec="seconds"),
+        "items": items,
+    }
+    _news_cache["feed"] = (now, feed)
+    return feed
+
 
 @app.get("/api/provinces")
 async def get_provinces():

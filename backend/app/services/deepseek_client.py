@@ -213,7 +213,7 @@ class DeepSeekClient:
         budget_text = f"，预算{budget}元" if budget else ""
         preferences_text = f"，偏好：{preferences}" if preferences else ""
 
-        user_message = f"请为{travelers}规划{destination}{days}天的行程{budget_text}{preferences_text}。\n\n要求：\n1. 逐日详细安排，包括上午、下午、晚上\n2. 包含交通建议、餐饮推荐\n3. 标注每个景点的避雷提示\n4. 预算分配明细\n5. 实用注意事项"
+        user_message = f"请为{travelers}规划{destination}{days}天的行程{budget_text}{preferences_text}。\n\n要求：\n1. 跨城交通方案（出发地到目的地的高铁/航班建议，含时长与参考票价；未说明出发地时按北京、上海、广州、成都分别简述；附目的地市内接驳建议）\n2. 逐日详细安排，包括上午、下午、晚上\n3. 包含市内交通建议、餐饮推荐\n4. 标注每个景点的避雷提示\n5. 预算分配明细\n6. 实用注意事项"
 
         return await self.chat_completion(user_message)
 

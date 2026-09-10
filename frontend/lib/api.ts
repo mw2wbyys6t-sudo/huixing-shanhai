@@ -290,6 +290,27 @@ export const provinceAPI = {
 };
 
 
+// ==================== 实时聚合旅游资讯 API ====================
+export interface NewsItem {
+  category: string;  // 天气动态 | 社区热文 | 最新评价 | 避雷提醒
+  title: string;
+  summary: string;
+  source: string;
+  time: string;
+  link: string;
+}
+
+export interface NewsFeed {
+  success: boolean;
+  count: number;
+  updated_at: string;
+  items: NewsItem[];
+}
+
+export const newsAPI = {
+  get: async (): Promise<NewsFeed> => fetchAPI<NewsFeed>('/news'),
+};
+
 // ==================== 游记/攻略社区 API ====================
 export interface NoteItem {
   id: number;
