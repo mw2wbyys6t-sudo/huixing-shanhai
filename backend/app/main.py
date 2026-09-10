@@ -350,7 +350,7 @@ async def get_weather(city: str = Query(..., min_length=1)):
                     status_code=503,
                     detail="天气服务配置有误：AMAP_KEY 需为「Web服务」类型（当前 Key 是网页地图类型）。请到高德控制台创建 Web 服务 Key。",
                 )
-            if info == "INVALID_USER_KEY":
+            if geo_data.get("info") == "INVALID_USER_KEY":
                 logger.error("高德 Key 无效：请到 Render 服务的 Environment 页检查 AMAP_KEY 是否已正确配置")
                 raise HTTPException(
                     status_code=503,
