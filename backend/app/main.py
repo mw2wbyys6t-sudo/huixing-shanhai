@@ -342,24 +342,23 @@ async def get_weather(city: str = Query(..., min_length=1)):
             geo_data = geo_resp.json()
 
             if geo_data.get("status") != "1" or not geo_data.get("geocodes"):
-                # 常见故障：Key 平台类型不匹配（天气/地理编码 REST 接口需要"Web服务"类型 Key）
+                # 地理编码失败：按高德 infocode 给出针对性提示
                 info = geo_data.get("info", "")
+                logger.error(f"高德地理编码失败: {info} / {geo_data.get('infocode', '')}（city={city}）")
                 if geo_data.get("infocode") == "10009" or "PLAT_NOMATCH" in info:
-                    logger.error("高德 Key 平台类型不匹配（10009）：请在高德控制台创建「Web服务」类型 Key 并更新 AMAP_KEY")
+                    raise HTTPException(
+                        status_code=503,
+                        detail="天气服务配置有误：AMAP_KEY 需为「Web服务」类型（当前 Key 是网页地图类型）。请到高德控制台创建 Web 服务 Key。",
+                    )
+                if geo_data.get("info") == "INVALID_USER_KEY":
+                    raise HTTPException(
+                        status_code=503,
+                        detail="天气服务不可用：AMAP_KEY 未配置或无效——请到 Render 服务的 Environment 页检查 AMAP_KEY",
+                    )
                 raise HTTPException(
-                    status_code=503,
-                    detail="天气服务配置有误：AMAP_KEY 需为「Web服务」类型（当前 Key 是网页地图类型）。请到高德控制台创建 Web 服务 Key。",
+                    status_code=404,
+                    detail=f"未找到城市 {city}（高德响应: {json.dumps(geo_data, ensure_ascii=False)[:300]}）",
                 )
-            if geo_data.get("info") == "INVALID_USER_KEY":
-                logger.error("高德 Key 无效：请到 Render 服务的 Environment 页检查 AMAP_KEY 是否已正确配置")
-                raise HTTPException(
-                    status_code=503,
-                    detail="天气服务不可用：AMAP_KEY 未配置或无效——请到 Render 服务的 Environment 页检查 AMAP_KEY",
-                )
-            raise HTTPException(
-                status_code=404,
-                detail=f"未找到城市 {city}（高德响应: {json.dumps(geo_data, ensure_ascii=False)[:300]}）",
-            )
 
             adcode = geo_data["geocodes"][0]["adcode"]
 
