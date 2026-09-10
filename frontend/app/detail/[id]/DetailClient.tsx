@@ -32,6 +32,8 @@ import {
   Phone,
   Navigation,
   Film,
+  Ticket,
+  Bus,
 } from 'lucide-react';
 import Header from '@/components/Header';
 import AvoidIndexBadge from '@/components/AvoidIndexBadge';
@@ -473,6 +475,31 @@ export default function DetailClient() {
                   </span>
                 ))}
               </div>
+            </div>
+
+            {/* 门票与交通 */}
+            <div className="glass rounded-2xl p-6">
+              <h2 className="text-xl font-bold text-white mb-4 flex items-center gap-2">
+                <Ticket className="w-5 h-5 text-emerald-400" />
+                门票与交通
+              </h2>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="rounded-xl bg-emerald-500/5 border border-emerald-500/20 p-4">
+                  <div className="flex items-center gap-2 mb-2">
+                    <Ticket className="w-4 h-4 text-emerald-400" />
+                    <span className="text-sm font-bold text-emerald-400">门票费用参考</span>
+                  </div>
+                  <p className="text-sm text-gray-300 leading-relaxed">{spot.ticket || '以景区当日公示为准'}</p>
+                </div>
+                <div className="rounded-xl bg-cyan-500/5 border border-cyan-500/20 p-4">
+                  <div className="flex items-center gap-2 mb-2">
+                    <Bus className="w-4 h-4 text-cyan-400" />
+                    <span className="text-sm font-bold text-cyan-400">交通建议</span>
+                  </div>
+                  <p className="text-sm text-gray-300 leading-relaxed">{spot.transport || '建议使用地图导航规划出行路线'}</p>
+                </div>
+              </div>
+              <p className="text-xs text-gray-500 mt-3">门票价格为参考信息，可能随季节与政策调整，出行前请以景区官方公示为准。</p>
             </div>
 
             {/* 景区实景环视 */}

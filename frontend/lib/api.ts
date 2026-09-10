@@ -84,6 +84,8 @@ export interface ScenicSpot {
   latitude: number;
   longitude: number;
   best_season: string;
+  ticket: string;      // 门票费用参考
+  transport: string;   // 交通建议
   tags: string[];
   avoid: AvoidIndex;
 }
