@@ -24,3 +24,8 @@ backend/uploads/
 .mimosa/
 backend/scripts/.bili_home.html
 backend/scripts/.bili_cookies.txt
+
+# 运维种子/补投脚本（本机运维工具，含演示数据内容，不入库）
+backend/scripts/seed_demo_data.py
+backend/scripts/retry_reviews.py
+.venv-root/

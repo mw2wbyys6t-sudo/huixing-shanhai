@@ -2,6 +2,13 @@
 # 使用方法：Render 控制台 → New → Blueprint → 选择本仓库 → Apply
 # 服务 URL 即：https://huixing-shanhai-api.onrender.com / https://huixing-shanhai-web.onrender.com
 # （若名称被占用 Render 会加随机后缀，部署后以控制台显示的地址为准）
+databases:
+  # 免费版 PostgreSQL（30 天有效期）——挂接后用户/评价/游记数据持久化，
+  # 不再随实例重启清空。创建后到服务的 Environment 确认 DATABASE_URL 已自动注入。
+  - name: huixing-shanhai-db
+    databaseName: huixing
+    plan: free
+
 services:
   - type: web
     name: huixing-shanhai-api
@@ -21,6 +28,10 @@ services:
         generateValue: true
       - key: FRONTEND_URL
         value: https://huixing-shanhai-web.onrender.com
+      - key: DATABASE_URL
+        fromDatabase:
+          name: huixing-shanhai-db
+          property: connectionString
 
   - type: static
     name: huixing-shanhai-web

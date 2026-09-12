@@ -13,6 +13,9 @@ DATABASE_URL = os.getenv(
     "DATABASE_URL",
     "sqlite:///./huixing_shanhai.db"
 )
+# Render 等平台下发 postgres:// 前缀，SQLAlchemy 2.x 需要 postgresql://
+if DATABASE_URL.startswith("postgres://"):
+    DATABASE_URL = DATABASE_URL.replace("postgres://", "postgresql://", 1)
 
 # 创建引擎
 if DATABASE_URL.startswith("sqlite"):
