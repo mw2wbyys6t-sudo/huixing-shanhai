@@ -29,3 +29,4 @@ backend/scripts/.bili_cookies.txt
 backend/scripts/seed_demo_data.py
 backend/scripts/retry_reviews.py
 .venv-root/
+frontend/tsconfig.tsbuildinfo
