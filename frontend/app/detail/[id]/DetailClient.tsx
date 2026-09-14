@@ -34,6 +34,7 @@ import {
   Film,
   Ticket,
   Bus,
+  Route,
 } from 'lucide-react';
 import Header from '@/components/Header';
 import AvoidIndexBadge from '@/components/AvoidIndexBadge';
@@ -501,6 +502,78 @@ export default function DetailClient() {
               </div>
               <p className="text-xs text-gray-500 mt-3">门票价格为参考信息，可能随季节与政策调整，出行前请以景区官方公示为准。</p>
             </div>
+
+            {/* 游玩指南（信息库 v5 扩展维度） */}
+            {(spot.open_hours || spot.duration || spot.highlights || spot.route || spot.audience) && (
+              <div className="glass rounded-2xl p-6">
+                <h2 className="text-xl font-bold text-white mb-4 flex items-center gap-2">
+                  <Route className="w-5 h-5 text-sky-400" />
+                  游玩指南
+                </h2>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                  {spot.open_hours && (
+                    <div><span className="text-gray-500">开放时间：</span><span className="text-gray-300">{spot.open_hours}</span></div>
+                  )}
+                  {spot.duration && (
+                    <div><span className="text-gray-500">建议时长：</span><span className="text-gray-300">{spot.duration}</span></div>
+                  )}
+                  {spot.highlights && (
+                    <div className="md:col-span-2"><span className="text-gray-500">必看点位：</span><span className="text-gray-300">{spot.highlights}</span></div>
+                  )}
+                  {spot.route && (
+                    <div className="md:col-span-2"><span className="text-gray-500">推荐路线：</span><span className="text-gray-300">{spot.route}</span></div>
+                  )}
+                  {spot.audience && (
+                    <div className="md:col-span-2"><span className="text-gray-500">适合人群：</span><span className="text-gray-300">{spot.audience}</span></div>
+                  )}
+                </div>
+                {(spot.family_friendly || spot.elder_friendly || spot.accessibility) && (
+                  <div className="flex flex-wrap gap-2 mt-4">
+                    {spot.family_friendly && (
+                      <span className="text-xs px-2.5 py-1 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/30">👶 亲子 {spot.family_friendly}</span>
+                    )}
+                    {spot.elder_friendly && (
+                      <span className="text-xs px-2.5 py-1 rounded-full bg-sky-500/10 text-sky-400 border border-sky-500/30">🧓 老年 {spot.elder_friendly}</span>
+                    )}
+                    {spot.accessibility && (
+                      <span className="text-xs px-2.5 py-1 rounded-full bg-violet-500/10 text-violet-400 border border-violet-500/30">♿ 无障碍 {spot.accessibility}</span>
+                    )}
+                  </div>
+                )}
+              </div>
+            )}
+
+            {/* 食宿与装备 */}
+            {(spot.dining || spot.hotel || spot.facilities || spot.gear) && (
+              <div className="glass rounded-2xl p-6">
+                <h2 className="text-xl font-bold text-white mb-4 flex items-center gap-2">
+                  <UtensilsCrossed className="w-5 h-5 text-amber-400" />
+                  食宿与装备
+                </h2>
+                <div className="space-y-3 text-sm">
+                  {spot.dining && <p><span className="text-gray-500">餐饮：</span><span className="text-gray-300">{spot.dining}</span></p>}
+                  {spot.hotel && <p><span className="text-gray-500">住宿：</span><span className="text-gray-300">{spot.hotel}</span></p>}
+                  {spot.facilities && <p><span className="text-gray-500">服务设施：</span><span className="text-gray-300">{spot.facilities}</span></p>}
+                  {spot.gear && <p><span className="text-gray-500">装备建议：</span><span className="text-gray-300">{spot.gear}</span></p>}
+                </div>
+              </div>
+            )}
+
+            {/* 安全与客流提示 */}
+            {(spot.weather_risk || spot.safety_tips || spot.crowd_peaks || spot.emergency) && (
+              <div className="glass rounded-2xl p-6">
+                <h2 className="text-xl font-bold text-white mb-4 flex items-center gap-2">
+                  <AlertTriangle className="w-5 h-5 text-amber-400" />
+                  安全与客流提示
+                </h2>
+                <div className="space-y-3 text-sm">
+                  {spot.weather_risk && <p><span className="text-amber-400/80">天气风险：</span><span className="text-gray-300">{spot.weather_risk}</span></p>}
+                  {spot.safety_tips && <p><span className="text-amber-400/80">安全提示：</span><span className="text-gray-300">{spot.safety_tips}</span></p>}
+                  {spot.crowd_peaks && <p><span className="text-amber-400/80">客流高峰：</span><span className="text-gray-300">{spot.crowd_peaks}</span></p>}
+                  {spot.emergency && <p><span className="text-amber-400/80">应急医疗：</span><span className="text-gray-300">{spot.emergency}</span></p>}
+                </div>
+              </div>
+            )}
 
             {/* 景区实景环视 */}
             <div className="glass rounded-2xl p-6">

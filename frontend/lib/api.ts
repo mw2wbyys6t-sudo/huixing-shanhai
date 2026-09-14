@@ -87,6 +87,33 @@ export interface ScenicSpot {
   ticket: string;      // 门票费用参考
   transport: string;   // 交通建议
   tags: string[];
+  // ===== 信息库 v5 扩展维度（部分景区具备） =====
+  attraction?: string;      // 核心吸引力
+  highlights?: string;      // 必看点位
+  scale?: string;           // 面积/规模
+  duration?: string;        // 建议游玩时长
+  route?: string;           // 推荐游玩路线
+  audience?: string;        // 适合人群
+  family_friendly?: string; // 亲子友好
+  elder_friendly?: string;  // 老年友好
+  accessibility?: string;   // 无障碍提示
+  open_hours?: string;      // 开放时间
+  booking?: string;         // 预约说明
+  address?: string;         // 详细地址
+  transit?: string;         // 公共交通建议
+  self_driving?: string;    // 自驾建议
+  parking?: string;         // 停车设施
+  shuttle?: string;         // 景区内交通/接驳
+  dining?: string;          // 餐饮建议
+  hotel?: string;           // 住宿建议
+  facilities?: string;      // 服务设施
+  restroom?: string;        // 卫生间
+  gear?: string;            // 装备建议
+  weather_risk?: string;    // 天气/自然风险
+  safety_tips?: string;     // 安全提示
+  crowd_peaks?: string;     // 客流高峰
+  emergency?: string;       // 应急/医疗建议
+  heritage?: string;        // 世界遗产/国际标签
   avoid: AvoidIndex;
 }
 
