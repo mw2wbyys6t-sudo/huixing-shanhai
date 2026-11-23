@@ -185,3 +185,4 @@ GET  /api/reviews/list/{spot_id}     评价列表
 ## 许可证
 
 MIT License
+注明：本项目是比赛作品，可以提供学习与借鉴。
