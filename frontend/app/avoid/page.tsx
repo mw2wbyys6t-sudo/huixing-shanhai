@@ -26,7 +26,8 @@ export default function AvoidPage() {
   useEffect(() => {
     const loadSpots = async () => {
       try {
-        const data = await scenicAPI.getList({ page_size: 20 });
+        // 拉取全部景区（此前仅取第一页 20 条，导致风险统计与排行榜数据不完整）
+        const data = await scenicAPI.getAll();
         // 按避雷指数降序排序
         const sorted = [...data.items].sort((a, b) => b.avoid.avoid_index - a.avoid.avoid_index);
         setSpots(sorted);
