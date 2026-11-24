@@ -75,10 +75,8 @@ function ExploreContent() {
           }
           items = filtered;
         } else {
-          // 列表模式（一次拉全量，数据规模小）
-          const data = await scenicAPI.getList({
-            page: 1,
-            page_size: 100,
+          // 列表模式（自动翻页拉取全量，后端单页上限 100）
+          const data = await scenicAPI.getAll({
             province: selectedProvince || undefined,
             type: selectedType && selectedType !== '全部' ? selectedType : undefined,
           });

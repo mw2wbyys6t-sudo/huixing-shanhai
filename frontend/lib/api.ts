@@ -216,6 +216,22 @@ export const scenicAPI = {
     }
   },
 
+  // 获取全部景区（自动翻页拉取，规避后端 page_size ≤ 100 的单页上限）
+  getAll: async (params?: {
+    province?: string;
+    type?: string;
+    level?: string;
+  }): Promise<{ total: number; items: ScenicSpot[] }> => {
+    const first = await scenicAPI.getList({ ...params, page: 1, page_size: 100 });
+    let items = first.items;
+    const totalPages = first.total_pages || 1;
+    for (let page = 2; page <= totalPages; page++) {
+      const next = await scenicAPI.getList({ ...params, page, page_size: 100 });
+      items = items.concat(next.items);
+    }
+    return { total: first.total, items };
+  },
+
   // 获取景区详情
   getDetail: async (id: string): Promise<ScenicSpot> => {
     try {
